@@ -1,0 +1,84 @@
+openapi: 3.0.0
+tags:
+  - name: public
+    description: For public use
+info:
+  title: offers-api
+  version: '1.0'
+  description: Serves offers to public API consumers
+  contact:
+    name: SadaPay Recruiting
+servers:
+  - url: 'http://localhost:3002'
+    description: Offers API
+paths:
+  /offers:
+    get:
+      summary: list offers
+      tags:
+        - public
+      responses:
+        '200':
+          $ref: '#/components/responses/get-offers-response'
+      operationId: get-offers
+      description: Lists all offers
+    parameters: [ ]
+components:
+  schemas:
+    offer:
+      title: offer
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        itemId:
+          type: string
+        priceReduction:
+          type: number
+        quantityThreshold:
+          type: integer
+      required:
+        - id
+        - name
+        - description
+        - itemId
+        - priceReduction
+        - quantityThreshold
+  responses:
+    get-offers-response:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              offers:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offer'
+            required:
+              - offers
+          examples:
+            success-example:
+              $ref: '#/components/examples/get-offers-success-example'
+  examples:
+    get-offers-success-example:
+      value:
+        description: GET offers success example
+        offers:
+          - id: offer1
+            name: Half-price
+            description: Stellar deal on Item 1! Pay just 50%
+            itemId: item1
+            priceReduction: 0.5
+            quantityThreshold: 1
+          - id: offer2
+            name: Buy 1 get 1
+            description: 'Buy 1 Item 2, get a second free!'
+            itemId: item2
+            priceReduction: 1
+            quantityThreshold: 2

@@ -1,0 +1,181 @@
+openapi: 3.0.0
+tags:
+  - name: internal
+    description: For internal use only
+info:
+  title: offers-management-api
+  version: '1.0'
+  description: Allows internal API consumers to manage offers
+  contact:
+    name: SadaPay Recruiting
+servers:
+  - url: 'http://localhost:3003'
+    description: Offers Management API
+paths:
+  /offers-management:
+    get:
+      summary: list offer management offers
+      tags:
+        - internal
+      responses:
+        '200':
+          $ref: '#/components/responses/get-offers-management-response'
+      operationId: get-offers
+      description: Lists all offers
+    post:
+      summary: uspert offer management offers
+      tags:
+        - internal
+      operationId: post-offers
+      responses:
+        '200':
+          $ref: '#/components/responses/post-offers-management-response'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                offers:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/offers-management-offer'
+              required:
+                - offers
+        description: ''
+      description: Adds or updates offers
+    delete:
+      summary: delete offer management offers
+      tags:
+        - internal
+      operationId: delete-offers
+      responses:
+        '200':
+          $ref: '#/components/responses/delete-offers-management-response'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                offerIds:
+                  type: array
+                  items:
+                    type: string
+              required:
+                - offerIds
+      description: Deletes offers
+    parameters: [ ]
+components:
+  schemas:
+    offers-management-offer:
+      title: offers-management-offer
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        itemId:
+          type: string
+        priceReduction:
+          type: number
+        description:
+          type: string
+        quantityThreshold:
+          type: integer
+      required:
+        - id
+        - name
+        - itemId
+        - priceReduction
+        - description
+        - quantityThreshold
+  responses:
+    get-offers-management-response:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              offers:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offers-management-offer'
+            required:
+              - offers
+          examples:
+            success-example:
+              $ref: '#/components/examples/get-offers-management-success-example'
+    post-offers-management-response:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              offers:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offers-management-offer'
+            required:
+              - offers
+          examples:
+            success-example:
+              $ref: '#/components/examples/post-offers-management-success-example'
+    delete-offers-management-response:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              offerIds:
+                type: array
+                items:
+                  type: string
+            required:
+              - offerIds
+          examples:
+            success-example:
+              $ref: '#/components/examples/delete-offers-management-success-example'
+  parameters: { }
+  examples:
+    get-offers-management-success-example:
+      value:
+        description: GET offers success example
+        offers:
+          - id: offer1
+            name: Half-price
+            description: Stellar deal on Item 1! Pay just 50%
+            itemId: item1
+            priceReduction: 0.5
+            quantityThreshold: 1
+          - id: offer2
+            name: Buy 1 get 1
+            description: 'Buy 1 Item 2, get a second free!'
+            itemId: item2
+            priceReduction: 1
+            quantityThreshold: 2
+    post-offers-management-success-example:
+      value:
+        description: POST offers success example
+        offers:
+          - id: offer2
+            name: Buy 1 get 1
+            description: 'Buy 1 Item 2, get a second half-price!'
+            itemId: item2
+            priceReduction: 0.5
+            quantityThreshold: 2
+          - id: offer3
+            name: 20% off
+            description: 20% off on Item 3
+            itemId: item3
+            priceReduction: 0.2
+            quantityThreshold: 1
+    delete-offers-management-success-example:
+      value:
+        description: delete offers success example
+        offerIds:
+          - offer1

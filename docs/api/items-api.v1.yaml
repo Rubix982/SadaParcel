@@ -1,0 +1,97 @@
+openapi: 3.0.0
+tags:
+  - name: public
+    description: For public use
+info:
+  title: items-api
+  version: '1.0'
+  description: Serves information about our inventory to public API consumers
+  contact:
+    name: SadaPay Recruiting
+servers:
+  - url: 'http://localhost:3000'
+    description: Items API
+paths:
+  /items:
+    get:
+      summary: list inventory items
+      tags:
+        - public
+      responses:
+        '200':
+          $ref: '#/components/responses/get-items-response'
+      operationId: get-inventory
+      description: Lists items in inventory
+      parameters: [ ]
+    parameters: [ ]
+components:
+  schemas:
+    item:
+      title: item
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+      required:
+        - id
+        - name
+        - description
+        - price
+    line:
+      title: line
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/item'
+        quantity:
+          type: integer
+      required:
+        - item
+        - quantity
+  securitySchemes: { }
+  responses:
+    get-items-response:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              lines:
+                type: array
+                items:
+                  $ref: '#/components/schemas/line'
+            required:
+              - lines
+          examples:
+            success-example:
+              $ref: '#/components/examples/get-items-example'
+  examples:
+    get-items-example:
+      value:
+        description: GET items success example
+        lines:
+          - item:
+              id: item1
+              name: Item 1
+              description: Amazing first item for iteming your items firstly
+              price: 1.50
+            quantity: 2
+          - item:
+              id: item2
+              name: Item 2
+              description: Incredible second item for iteming your items secondly
+              price: 9.99
+            quantity: 3
+          - item:
+              id: item3
+              name: Item 3
+              description: Unbelievable third item for iteming your items thirdly
+              price: 100.00
+            quantity: 0

@@ -1,0 +1,207 @@
+openapi: 3.0.0
+tags:
+  - name: internal
+    description: For internal use only
+info:
+  title: items-management-api
+  version: "1.0"
+  description: Allows internal API consumers to manage items in inventory
+  contact:
+    name: SadaPay Recruiting
+servers:
+  - url: "http://localhost:3001"
+    description: Items Management API
+paths:
+  /items-management:
+    get:
+      summary: list inventory management items
+      tags:
+        - internal
+      responses:
+        "200":
+          $ref: "#/components/responses/get-items-management-response"
+      operationId: get-items-management
+      parameters: [ ]
+      description: Lists items in inventory
+    post:
+      summary: upset inventory management items
+      tags:
+        - internal
+      operationId: post-items-management
+      responses:
+        "200":
+          $ref: "#/components/responses/post-items-management-response"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lines:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/items-management-line"
+              required:
+                - lines
+        description: request to upsert inventory management items
+      description: Adds or updates items in inventory
+    delete:
+      summary: delete inventory management items
+      tags:
+        - internal
+      operationId: delete-inventory-management-items
+      responses:
+        "200":
+          $ref: "#/components/responses/delete-items-management-response"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                itemIds:
+                  type: array
+                  items:
+                    type: string
+              required:
+                - itemIds
+        description: request to delete inventory management items
+      description: Deletes items from inventory
+    parameters: [ ]
+components:
+  schemas:
+    items-management-line:
+      title: items-management-line
+      type: object
+      properties:
+        item:
+          $ref: "#/components/schemas/items-management-item"
+        quantity:
+          type: integer
+      required:
+        - item
+        - quantity
+    items-management-item:
+      title: items-management-item
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        cost:
+          type: number
+      required:
+        - id
+        - name
+        - description
+        - price
+        - cost
+      description: ""
+  responses:
+    get-items-management-response:
+      description: Allows internal API consumers to list of inventory items. Returns list of all inventory items.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              lines:
+                type: array
+                items:
+                  $ref: "#/components/schemas/items-management-line"
+            required:
+              - lines
+          examples:
+            success-example:
+              $ref: "#/components/examples/get-items-management-success-example"
+    post-items-management-response:
+      description: Allows internal API consumers to add and update inventory items. Returns list of added and updated inventory items only.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              lines:
+                type: array
+                items:
+                  $ref: "#/components/schemas/items-management-line"
+            required:
+              - lines
+          examples:
+            success-example:
+              $ref: "#/components/examples/post-items-management-success-example"
+    delete-items-management-response:
+      description: Allows internal API consumers to remove inventory items. Returns ids of removed inventory items.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              itemIds:
+                type: array
+                items:
+                  type: string
+            required:
+              - itemIds
+          examples:
+            success-example:
+              $ref: "#/components/examples/delete-items-management-success-example"
+  parameters: { }
+  examples:
+    delete-items-management-success-example:
+      value:
+        itemIds:
+          - item3
+    get-items-management-success-example:
+      value:
+        lines:
+          - item:
+              id: item1
+              name: Item 1
+              description: Amazing first item for iteming your items firstly
+              price: 1.5
+              cost: 0.5
+            quantity: 2
+          - item:
+              id: item2
+              name: Item 2
+              description: Incredible second item for iteming your items secondly
+              price: 9.99
+              cost: 5
+            quantity: 3
+          - item:
+              id: item3
+              name: Item 3
+              description: Unbelievable third item for iteming your items thirdly
+              price: 100
+              cost: 80
+            quantity: 0
+    post-items-management-success-example:
+      value:
+        lines:
+          # - item:
+          #     id: item1
+          #     name: Item 1
+          #     description: Amazing first item for iteming your items firstly
+          #     price: 1.5
+          #     cost: 0.5
+          #   quantity: 2
+          # - item:
+          #     id: item2
+          #     name: Item 2
+          #     description: Incredible second item for iteming your items secondly
+          #     price: 19.99
+          #     cost: 5
+          #   quantity: 3
+          - item:
+              id: item3
+              name: Item 3
+              description: Unbelievable third item for iteming your items thirdly
+              price: 100
+              cost: 180
+            quantity: 10

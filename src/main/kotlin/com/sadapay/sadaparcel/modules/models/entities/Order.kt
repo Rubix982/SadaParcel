@@ -1,11 +1,23 @@
 package com.sadapay.sadaparcel.modules.models.entities
 
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
+
+@Entity
 class Order(
+    @Id @GeneratedValue
     var id: String,
+    @Column
     var name: String,
+    @Column
     var originalPrice: Double,
+    @Column
     var discountedPrice: Double
 ) {
+    constructor() : this("", "", 0.0, 0.0)
+
     override fun equals(other: Any?): Boolean {
 
         if (other !is Order) {

@@ -1,13 +1,8 @@
 package com.sadapay.sadaparcel.modules.models.repositories
 
 import com.sadapay.sadaparcel.modules.models.entities.Order
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
 
-class Orders : Repository<Order> {
-    override fun add(t: Order) {
-        TODO("Not yet implemented")
-    }
-
-    override fun remove(t: Order) {
-        TODO("Not yet implemented")
-    }
-}
+@Repository
+interface OrderRepository : JpaRepository<Order?, Long?>

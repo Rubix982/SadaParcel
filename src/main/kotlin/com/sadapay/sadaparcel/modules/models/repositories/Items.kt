@@ -1,13 +1,8 @@
 package com.sadapay.sadaparcel.modules.models.repositories
 
 import com.sadapay.sadaparcel.modules.models.entities.Item
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
 
-open class Items : Repository<Item> {
-    override fun add(t: Item) {
-        TODO("Not yet implemented")
-    }
-
-    override fun remove(t: Item) {
-        TODO("Not yet implemented")
-    }
-}
+@Repository
+interface ItemRepository : JpaRepository<Item?, Long?>

@@ -1,12 +1,37 @@
 package com.sadapay.sadaparcel.modules.models.entities
 
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
+
+@Entity
 class Item(
+    @Id @GeneratedValue
     var id: String,
+    @Column
     var name: String,
+    @Column
     var description: String,
+    @Column
     var price: Double
 ) {
-    fun equals(item: Item): Boolean {
-        return item.id == this.id && item.name == this.name && item.description == this.description && item.price == this.price
+    constructor() : this("", "", "", 0.0)
+
+    override fun equals(other: Any?): Boolean {
+
+        if (other !is Item) {
+            return false
+        }
+
+        return other.id == this.id && other.name == this.name && other.description == this.description && other.price == this.price
+    }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + name.hashCode()
+        result = 31 * result + description.hashCode()
+        result = 31 * result + price.hashCode()
+        return result
     }
 }

@@ -1,11 +1,8 @@
 package com.sadapay.sadaparcel.modules.models.repositories
 
-class Offers : Repository<Offers> {
-    override fun add(t: Offers) {
-        TODO("Not yet implemented")
-    }
+import com.sadapay.sadaparcel.modules.models.entities.Offer
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
 
-    override fun remove(t: Offers) {
-        TODO("Not yet implemented")
-    }
-}
+@Repository
+interface OfferRepository : JpaRepository<Offer?, Long?>

@@ -11,5 +11,5 @@ import org.springframework.web.bind.annotation.RestController
 class ItemsController {
     @GetMapping("/", produces = ["application/json"])
     @ResponseBody
-    fun index() = Item("1", "item1", "ITEM1", 1.0)
+    fun index() = listOf<Item>()
 }

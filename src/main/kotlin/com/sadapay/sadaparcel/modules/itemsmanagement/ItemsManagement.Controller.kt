@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*
 class ItemsManagementController {
     @GetMapping(produces = ["application/json"])
     @ResponseBody
-    fun index(): Collection<Item> = listOf(Item("1", "item1", "ITEM1", 1.0), Item("2", "item2", "ITEM2", 2.0))
+    fun index(): Collection<Item> = listOf()
 
     @PostMapping(produces = ["application/json"])
     @ResponseBody

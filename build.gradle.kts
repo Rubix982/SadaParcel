@@ -31,7 +31,7 @@ dependencies {
 	implementation("org.apache.commons:commons-dbcp2:2.9.0")
 	testImplementation("org.projectlombok:lombok:1.18.20")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("org.mockito:mockito-core:2.21.0")
+	testImplementation("org.mockito:mockito-core:3.7.0")
 	testImplementation("junit:junit:4.13.2")
 	testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
 	testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")

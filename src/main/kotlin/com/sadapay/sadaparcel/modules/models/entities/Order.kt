@@ -1,11 +1,9 @@
 package com.sadapay.sadaparcel.modules.models.entities
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
+@Table(name = "orders")
 class Order(
     @Id @GeneratedValue
     var id: String,

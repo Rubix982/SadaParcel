@@ -12,7 +12,7 @@ import java.time.LocalDate
 
 @Configuration
 @EnableSwagger2
-class SpringFoxConfig {
+class SpringFoxConfiguration {
     @Bean
     fun api(): Docket {
         return Docket(DocumentationType.SWAGGER_2)

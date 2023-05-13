@@ -27,6 +27,8 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("com.h2database:h2:2.1.214")
+	implementation("org.apache.tomcat:tomcat-dbcp:10.1.8")
+	implementation("org.apache.commons:commons-dbcp2:2.9.0")
 	testImplementation("org.projectlombok:lombok:1.18.20")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.mockito:mockito-core:2.21.0")

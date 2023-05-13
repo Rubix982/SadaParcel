@@ -1,4 +1,4 @@
-package com.sadapay.sadaparcel
+package com.sadapay.sadaparcel.bootloader
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

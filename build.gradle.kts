@@ -8,7 +8,7 @@ plugins {
 	kotlin("plugin.spring") version "1.5.10"
 }
 
-group = "com.example"
+group = "com.sadapay"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 

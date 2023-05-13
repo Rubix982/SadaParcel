@@ -3,7 +3,7 @@
                    factoryName="Spring Boot">
         <option name="ACTIVE_PROFILES"/>
         <module name="sadaparcel.main"/>
-        <option name="SPRING_BOOT_MAIN_CLASS" value="com.sadapay.sadaparcel.bootloader.SadaparcelApplication"/>
+        <option name="SPRING_BOOT_MAIN_CLASS" value="com.sadapay.sadaparcel.SadaparcelApplication"/>
         <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
             <option name="credential"/>
             <option name="region"/>

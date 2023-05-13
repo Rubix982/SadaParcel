@@ -16,7 +16,10 @@ class Item(
     @Column
     var cost: Double,
     @OneToOne(mappedBy = "items")
-    var line: Line?
+    var line: Line?,
+    @ManyToOne(cascade = [CascadeType.ALL])
+    @JoinColumn(name = "order_id")
+    var orders: Order? = null
 ) {
     constructor() : this("", "", "", 0.0, 0.0, null)
 

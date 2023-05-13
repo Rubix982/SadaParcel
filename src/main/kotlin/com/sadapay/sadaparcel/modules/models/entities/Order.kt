@@ -7,14 +7,12 @@ import javax.persistence.*
 class Order(
     @Id @GeneratedValue
     var id: String,
-    @Column
-    var name: String,
-    @Column
-    var originalPrice: Double,
-    @Column
-    var discountedPrice: Double
+    @OneToMany(mappedBy = "orders", cascade = [CascadeType.ALL])
+    var items: List<Item>,
+    @OneToMany(mappedBy = "orders", cascade = [CascadeType.ALL])
+    var offers: List<Offer>,
 ) {
-    constructor() : this("", "", 0.0, 0.0)
+    constructor() : this("", emptyList(), emptyList())
 
     override fun equals(other: Any?): Boolean {
 
@@ -22,14 +20,13 @@ class Order(
             return false
         }
 
-        return other.id == id && other.name == name && other.originalPrice == originalPrice && other.discountedPrice == discountedPrice
+        return other.id == id && other.items == items && other.offers == offers
     }
 
     override fun hashCode(): Int {
         var result = id.hashCode()
-        result = 31 * result + name.hashCode()
-        result = 31 * result + originalPrice.hashCode()
-        result = 31 * result + discountedPrice.hashCode()
+        result = 31 * result + items.hashCode()
+        result = 31 * result + offers.hashCode()
         return result
     }
 }

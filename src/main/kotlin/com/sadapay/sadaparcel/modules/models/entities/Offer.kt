@@ -16,7 +16,10 @@ class Offer(
     @Column
     var priceReduction: Double,
     @Column
-    var quantityThreshold: Int
+    var quantityThreshold: Int,
+    @ManyToOne(cascade = [CascadeType.ALL])
+    @JoinColumn(name = "order_id")
+    var orders: Order? = null
 ) {
     constructor() : this("", "", "", "", 0.0, 0)
 

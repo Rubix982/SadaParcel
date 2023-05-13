@@ -9,7 +9,7 @@ class OrdersController {
 
     @GetMapping(produces = ["application/json"])
     @ResponseBody
-    fun getOrders(): List<Order> = listOf(Order("1", "2", 1.2, 2.3), Order("4", "5", 1.2, 2.3))
+    fun getOrders(): List<Order> = listOf()
 
     @PostMapping(produces = ["application/json"])
     @ResponseBody

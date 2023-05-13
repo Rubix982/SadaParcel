@@ -12,9 +12,13 @@ class Item(
     @Column
     var description: String,
     @Column
-    var price: Double
+    var price: Double,
+    @Column
+    var cost: Double,
+    @OneToOne(mappedBy = "items")
+    var line: Line?
 ) {
-    constructor() : this("", "", "", 0.0)
+    constructor() : this("", "", "", 0.0, 0.0, null)
 
     override fun equals(other: Any?): Boolean {
 
@@ -22,7 +26,7 @@ class Item(
             return false
         }
 
-        return other.id == this.id && other.name == this.name && other.description == this.description && other.price == this.price
+        return other.id == this.id && other.name == this.name && other.description == this.description && other.price == this.price && other.cost == this.cost
     }
 
     override fun hashCode(): Int {
@@ -30,6 +34,7 @@ class Item(
         result = 31 * result + name.hashCode()
         result = 31 * result + description.hashCode()
         result = 31 * result + price.hashCode()
+        result = 31 * result + cost.hashCode()
         return result
     }
 }

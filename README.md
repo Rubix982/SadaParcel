@@ -91,7 +91,12 @@ To get a local copy up and running follow these simple example steps.
 
 <p style="text-align:right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- ROADMAP -->
+### Links
+
+- [Swagger JSON](http://localhost:8080/v2/api-docs)
+- [SpringFox Swagger UI](http://localhost:8080/swagger-ui/)
+- [H2 Console](http://localhost:8080/h2-console)
+- [Actuator](http://localhost:8080/actuator)
 
 ## Roadmap
 

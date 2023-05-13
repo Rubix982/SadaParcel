@@ -2,6 +2,7 @@ package com.sadapay.sadaparcel.server.logging
 
 import org.apache.commons.io.output.TeeOutputStream
 import org.slf4j.LoggerFactory
+import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
 import java.io.*
 import java.util.*
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequestWrapper
 import javax.servlet.http.HttpServletResponse
 
 @Component
+@Order(1)
 class HttpLoggingFilter : Filter {
     @Throws(ServletException::class)
     override fun init(filterConfig: FilterConfig) {

@@ -98,6 +98,14 @@ To get a local copy up and running follow these simple example steps.
 - [H2 Console](http://localhost:8080/h2-console)
 - [Actuator](http://localhost:8080/actuator)
 
+### Logging
+
+Your most recent logs are available at `logs\spring-boot-logger-log4j2.log`.
+
+You can also view logs in real time in this file.
+
+All the previous logs are available at `logs\<YEAR>-<MONTH>`.
+
 ## Roadmap
 
 See the [open issues](https://github.com/Rubix982/SadaParcel/issues) for a full list of proposed features (and known

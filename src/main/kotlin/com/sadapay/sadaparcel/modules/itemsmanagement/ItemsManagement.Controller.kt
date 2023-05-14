@@ -60,5 +60,15 @@ class ItemsManagementController {
 
     @DeleteMapping(produces = ["application/json"])
     @ResponseBody
-    fun remove(item: Item): Item = item
+    fun remove(itemIds: List<String>): ResponseEntity<List<String>> {
+
+        if (itemIds.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(listOf())
+        }
+
+        // TODO: If itemIds has some or all invalid Ids, return a 409 Conflict
+        // https://stackoverflow.com/questions/25122472/rest-http-status-code-if-delete-impossible
+
+        return ResponseEntity.status(HttpStatus.OK).body(itemIds)
+    }
 }

@@ -130,4 +130,35 @@ class ItemsManagementControllerTest {
 
         logger.info("[ItemsManagementControllerTest::addNoItemShouldReturnNoItems]: Test ended")
     }
+
+    private fun logTestStarted(testName: String) {
+        logger.info("[ItemsManagementControllerTest::$testName]: Test started")
+    }
+
+    private fun logTestEnded(testName: String) {
+        logger.info("[ItemsManagementControllerTest::$testName]: Test ended")
+    }
+
+    private fun logMockedHttpResponse(testName: String, mockedHttpServletResponse: MockHttpServletResponse) {
+        logger.info("[ItemsManagementControllerTest::$testName]: mockedHttpServletResponse: $mockedHttpServletResponse")
+    }
+
+    private fun logRepositoryIsNull(testName: String) {
+        logger.error("[ItemsManagementControllerTest::$testName]: itemRepository is null")
+    }
+
+    private fun mockHttpGETServletResponse() = mvc?.perform(
+        get("/items-management")
+            .accept(MediaType.APPLICATION_JSON)
+    )
+        ?.andReturn()
+        ?.response
+
+    private fun mockHttpPOSTServletResponse(lines: List<Line>) = mvc?.perform(
+        post("/items-management")
+            .requestAttr("lines", lines)
+            .accept(MediaType.APPLICATION_JSON)
+    )
+        ?.andReturn()
+        ?.response
 }

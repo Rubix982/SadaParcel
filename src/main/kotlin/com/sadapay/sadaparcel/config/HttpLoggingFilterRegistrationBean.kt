@@ -13,7 +13,7 @@ class HttpLoggingFilterRegistrationBean {
         val registrationBean = FilterRegistrationBean<HttpLoggingFilter?>()
         val customURLFilter = HttpLoggingFilter()
         registrationBean.filter = customURLFilter
-        registrationBean.addUrlPatterns("/test/*")
+        registrationBean.addUrlPatterns("*")
         registrationBean.order = 1 // Set precedence
         return registrationBean
     }

@@ -46,6 +46,10 @@ class ItemsManagementControllerTest {
     @Mock
     private val itemRepository: ItemRepository? = null
 
+    object ControllerConstants {
+        const val CONTROLLER_ROUTE = "/items-management"
+    }
+
     private val items: List<Item> = List(5) {
         Item(
             id = "minim aliqua",
@@ -746,15 +750,15 @@ class ItemsManagementControllerTest {
         logger.error("[ItemsManagementControllerTest::$testName]: itemRepository is null")
     }
 
-    private fun mockHttpGETServletResponse() = mvc?.perform(
-        get("/items-management")
+    private fun mockHttpGETServletResponse(): MockHttpServletResponse? = mvc?.perform(
+        get(ControllerConstants.CONTROLLER_ROUTE)
             .accept(MediaType.APPLICATION_JSON)
     )
         ?.andReturn()
         ?.response
 
-    private fun mockHttpPOSTServletResponse(lines: List<Line>) = mvc?.perform(
-        post("/items-management")
+    private fun mockHttpPOSTServletResponse(lines: List<Line>): MockHttpServletResponse? = mvc?.perform(
+        post(ControllerConstants.CONTROLLER_ROUTE)
             .requestAttr("lines", lines)
             .accept(MediaType.APPLICATION_JSON)
     )

@@ -48,4 +48,8 @@ class Item(
         result = 31 * result + cost.hashCode()
         return result
     }
+
+    override fun toString(): String {
+        return "Item(id='$id', name='$name', description='$description', price=$price, cost=$cost, line=$line, orders=$orders)"
+    }
 }

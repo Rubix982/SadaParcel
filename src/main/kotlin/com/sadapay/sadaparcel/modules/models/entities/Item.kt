@@ -23,6 +23,14 @@ class Item(
 ) {
     constructor() : this("", "", "", 0.0, 0.0, null)
 
+    constructor(
+        id: String,
+        name: String,
+        description: String,
+        price: Double,
+        cost: Double
+    ) : this(id, name, description, price, cost, null)
+
     override fun equals(other: Any?): Boolean {
 
         if (other !is Item) {

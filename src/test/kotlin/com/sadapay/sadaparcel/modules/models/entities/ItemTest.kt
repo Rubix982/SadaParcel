@@ -1,6 +1,5 @@
 package com.sadapay.sadaparcel.modules.models.entities
 
-import com.sadapay.sadaparcel.modules.itemsmanagement.ItemsManagementControllerTest
 import lombok.extern.log4j.Log4j2
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -19,6 +18,10 @@ internal class ItemTest {
     private val logger: Logger = LoggerFactory.getLogger(
         ItemTest::class.java
     ) as Logger
+
+    object Constants {
+        const val TEST_CLASS_NAME = "ItemTest"
+    }
 
     @Test
     fun testEquals() {
@@ -53,6 +56,7 @@ internal class ItemTest {
     @Test
     fun testToString() {
         val testName = "testToString"
+
         logTestStarted(testName)
 
         // given
@@ -112,10 +116,10 @@ internal class ItemTest {
     }
 
     private fun logTestStarted(testName: String) {
-        logger.info("[${ItemsManagementControllerTest.ControllerConstants.TEST_CLASS_NAME}::$testName]: Test started")
+        logger.info("[${Constants.TEST_CLASS_NAME}::$testName]: Test started")
     }
 
     private fun logTestEnded(testName: String) {
-        logger.info("[${ItemsManagementControllerTest.ControllerConstants.TEST_CLASS_NAME}::$testName]: Test ended")
+        logger.info("[${Constants.TEST_CLASS_NAME}::$testName]: Test ended")
     }
 }

@@ -51,4 +51,8 @@ class Offer(
         result = 31 * result + quantityThreshold
         return result
     }
+
+    override fun toString(): String {
+        return "Offer(id='$id', name='$name', description='$description', itemId='$itemId', priceReduction=$priceReduction, quantityThreshold=$quantityThreshold)"
+    }
 }

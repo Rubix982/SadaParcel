@@ -12,6 +12,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 class ItemsManagementExceptionHandler {
     @ExceptionHandler(NonExistingItemException::class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    fun handleNonExistingHero() {
+    fun handleNonExistingItem() {
     }
 }

@@ -24,7 +24,7 @@ class ItemFilter : Filter {
             "Access-Control-Allow-Headers",
             "Origin, X-Requested-With, Content-Type, Accept, Authorization"
         )
-        httpServletResponse.setHeader("X-SADAPARCEL-APP", "super-header")
+        httpServletResponse.setHeader("X-SADAPARCEL-APP", "sadaparcel-header")
         filterChain.doFilter(servletRequest, servletResponse)
     }
 

@@ -48,9 +48,10 @@ class ItemsManagementControllerTest {
 
     object ControllerConstants {
         const val CONTROLLER_ROUTE = "/items-management"
+        const val TEST_CLASS_NAME = "ItemsManagementControllerTest"
     }
 
-    private val items: List<Item> = List(5) {
+    private val items: List<Item> = List(3) {
         Item(
             id = "minim aliqua",
             name = "Excepteur sunt labore dolor",
@@ -72,43 +73,28 @@ class ItemsManagementControllerTest {
             price = -5734528.115454,
             cost = -3133347.464509
         )
-        Item(
-            id = "eos qui",
-            name = "ratione voluptatem sequi",
-            description = "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed",
-            price = -544368.1152884,
-            cost = -3464267.447165509
-        )
-        Item(
-            id = "quia non",
-            name = "numquam eius modi",
-            description = "tempora incidunt ut labore et dolore magnam aliquam",
-            price = -5742028.115244,
-            cost = -334367.4456509
-        )
     }
 
     @BeforeEach
     fun setUp() {
-        logger.info("[ItemsManagementControllerTest::setUp::]: Setup complete")
+        logger.info("[${ControllerConstants.TEST_CLASS_NAME}::setUp]: Setup complete")
 
         JacksonTester.initFields(this, ObjectMapper())
         mvc = MockMvcBuilders.standaloneSetup(itemsManagementController)
             .setControllerAdvice(ItemsManagementExceptionHandler())
             .addFilters<StandaloneMockMvcBuilder>(ItemFilter())
             .build()
-        logger.info("[ItemsManagementControllerTest::setUp::MockMvc::Successful]: mvc: $mvc")
+        logger.info("[${ControllerConstants.TEST_CLASS_NAME}::setUp::MockMvc::Successful]: mvc: $mvc")
     }
 
     @AfterEach
     fun tearDown() {
-        logger.info("[ItemsManagementControllerTest::closeUp]: Tear down complete")
+        logger.info("[${ControllerConstants.TEST_CLASS_NAME}::tearDown]: Tear down complete")
     }
 
     @Test
     fun index() {
-        logger.info("[ItemsManagementControllerTest::index]: Test started")
-        logger.info("[ItemsManagementControllerTest::index]: Test ended")
+        logger.info("[${ControllerConstants.TEST_CLASS_NAME}::index]: ${ControllerConstants.TEST_CLASS_NAME} detected")
     }
 
     @Test
@@ -735,19 +721,19 @@ class ItemsManagementControllerTest {
     }
 
     private fun logTestStarted(testName: String) {
-        logger.info("[ItemsManagementControllerTest::$testName]: Test started")
+        logger.info("[${ControllerConstants.TEST_CLASS_NAME}::$testName]: Test started")
     }
 
     private fun logTestEnded(testName: String) {
-        logger.info("[ItemsManagementControllerTest::$testName]: Test ended")
+        logger.info("[${ControllerConstants.TEST_CLASS_NAME}::$testName]: Test ended")
     }
 
     private fun logMockedHttpResponse(testName: String, mockedHttpServletResponse: MockHttpServletResponse) {
-        logger.info("[ItemsManagementControllerTest::$testName]: mockedHttpServletResponse: $mockedHttpServletResponse")
+        logger.info("[${ControllerConstants.TEST_CLASS_NAME}::$testName]: mockedHttpServletResponse: $mockedHttpServletResponse")
     }
 
     private fun logRepositoryIsNull(testName: String) {
-        logger.error("[ItemsManagementControllerTest::$testName]: itemRepository is null")
+        logger.error("[${ControllerConstants.TEST_CLASS_NAME}::$testName]: itemRepository is null")
     }
 
     private fun mockHttpGETServletResponse(): MockHttpServletResponse? = mvc?.perform(

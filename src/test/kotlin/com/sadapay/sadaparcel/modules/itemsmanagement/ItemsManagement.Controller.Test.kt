@@ -23,10 +23,10 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder
+import kotlin.random.Random
 
 
 @Log4j2
@@ -489,6 +489,247 @@ class ItemsManagementControllerTest {
         logTestEnded(testName)
     }
 
+    @Test
+    fun deleteWhenNoItemIdsArePassedThenRepositoryIsUnaffected() {
+        val testName = "deleteWhenNoItemIdsArePassedThenRepositoryIsUnaffected"
+        logTestStarted(testName)
+
+        if (itemRepository == null) {
+            logRepositoryIsNull(testName)
+            return
+        }
+
+        // given
+        val itemCount = itemRepository.findAll().size
+
+        // when
+        val mockedHttpServletResponse = mockHttpDELETEResponse(emptyList()) ?: return
+        logMockedHttpResponse(testName, mockedHttpServletResponse)
+
+        // then
+        assertThat(itemRepository.findAll().size).isEqualTo(itemCount)
+
+        logTestEnded(testName)
+    }
+
+    @Test
+    fun deleteWhenNoItemIdsArePassedThenHttpStatusIsNoContent() {
+        val testName = "deleteWhenNoItemIdsArePassedThenHttpStatusIsNoContent"
+        logTestStarted(testName)
+
+        if (itemRepository == null) {
+            logRepositoryIsNull(testName)
+            return
+        }
+
+        // when
+        val mockedHttpServletResponse = mockHttpDELETEResponse(emptyList()) ?: return
+        logMockedHttpResponse(testName, mockedHttpServletResponse)
+
+        // then
+        assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.NO_CONTENT.value())
+
+        logTestEnded(testName)
+    }
+
+    @Test
+    fun deleteWhenAllItemIdsAreValidThenRepositoryIsAffected() {
+        val testName = "deleteWhenAllItemIdsAreValidThenRepositoryIsAffected"
+        logTestStarted(testName)
+
+        if (itemRepository == null) {
+            logRepositoryIsNull(testName)
+            return
+        }
+
+        // given
+        itemRepository.saveAll(items)
+
+        // when
+        val itemIds: MutableList<String> = mutableListOf()
+        items.forEach { item -> itemIds.add(item.id) }
+        val mockedHttpServletResponse = mockHttpDELETEResponse(itemIds) ?: return
+        logMockedHttpResponse(testName, mockedHttpServletResponse)
+
+        // then
+        assertThat(itemRepository.findAll().size).isEqualTo(0)
+
+        logTestEnded(testName)
+    }
+
+    @Test
+    fun deleteWhenAllItemIdsAreValidThenHttpStatusIsNoContent() {
+        val testName = "deleteWhenAllItemIdsAreValidThenHttpStatusIsNoContent"
+        logTestStarted(testName)
+
+        if (itemRepository == null) {
+            logRepositoryIsNull(testName)
+            return
+        }
+
+        // given
+        itemRepository.saveAll(items)
+
+        // when
+        val itemIds: MutableList<String> = mutableListOf()
+        items.forEach { item -> itemIds.add(item.id) }
+        val mockedHttpServletResponse = mockHttpDELETEResponse(itemIds) ?: return
+        logMockedHttpResponse(testName, mockedHttpServletResponse)
+
+        // then
+        assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.NO_CONTENT.value())
+
+        logTestEnded(testName)
+    }
+
+    @Test
+    fun deleteWhenAllItemIdsAreValidThenReturnedIsTheSameListOfItemIds() {
+        val testName = "deleteWhenAllItemIdsAreValidThenReturnedIsTheSameListOfItemIds"
+        logTestStarted(testName)
+
+        if (itemRepository == null) {
+            logRepositoryIsNull(testName)
+            return
+        }
+
+        // given
+        itemRepository.saveAll(items)
+
+        // when
+        val itemIds: MutableList<String> = mutableListOf()
+        items.forEach { item -> itemIds.add(item.id) }
+        val mockedHttpServletResponse = mockHttpDELETEResponse(itemIds) ?: return
+        logMockedHttpResponse(testName, mockedHttpServletResponse)
+
+        // then
+        assertThat(mockedHttpServletResponse.contentAsString).isEqualTo(itemIds.toString())
+
+        logTestEnded(testName)
+    }
+
+    @Test
+    fun deleteWhenSomeItemIdsAreInvalidThenHttpStatusIsConflict() {
+        val testName = "deleteWhenSomeItemIdsAreInvalidThenHttpStatusIsConflict"
+        logTestStarted(testName)
+
+        if (itemRepository == null) {
+            logRepositoryIsNull(testName)
+            return
+        }
+
+        // given
+        itemRepository.saveAll(items)
+
+        // when
+        val itemIds: MutableList<String> = mutableListOf()
+        items.forEachIndexed { index, item ->
+            run {
+                var itemId: String = item.id
+                if (index < 3) itemId = jumbleWord(itemId)
+                itemIds.add(itemId)
+            }
+        }
+        val mockedHttpServletResponse = mockHttpDELETEResponse(itemIds) ?: return
+        logMockedHttpResponse(testName, mockedHttpServletResponse)
+
+        // then
+        assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.CONFLICT.value())
+
+        logTestEnded(testName)
+    }
+
+    @Test
+    fun deleteWhenSomeItemIdsAreInvalidThenReturnedIsAnEmptyList() {
+        val testName = "deleteWhenSomeItemIdsAreInvalidThenReturnedIsAnEmptyList"
+        logTestStarted(testName)
+
+        if (itemRepository == null) {
+            logRepositoryIsNull(testName)
+            return
+        }
+
+        // given
+        itemRepository.saveAll(items)
+
+        // when
+        val itemIds: MutableList<String> = mutableListOf()
+        items.forEachIndexed { index, item ->
+            run {
+                var itemId: String = item.id
+                if (index < 3) itemId = jumbleWord(itemId)
+                itemIds.add(itemId)
+            }
+        }
+        val mockedHttpServiceResponse = mockHttpDELETEResponse(itemIds) ?: return
+        logMockedHttpResponse(testName, mockedHttpServiceResponse)
+
+        // then
+        assertThat(mockedHttpServiceResponse.contentAsString).isEqualTo(emptyList<String>().toString())
+
+        logTestEnded(testName)
+    }
+
+    @Test
+    fun deleteWhenAllItemIdsAreInvalidThenHttpStatusIsConflict() {
+        val testName = "deleteWhenSomeItemIdsAreInvalidThenHttpStatusIsConflict"
+        logTestStarted(testName)
+
+        if (itemRepository == null) {
+            logRepositoryIsNull(testName)
+            return
+        }
+
+        // given
+        itemRepository.saveAll(items)
+
+        // when
+        val itemIds: MutableList<String> = mutableListOf()
+        items.forEach { item -> itemIds.add(jumbleWord(item.id)) }
+        val mockedHttpServletResponse = mockHttpDELETEResponse(itemIds) ?: return
+        logMockedHttpResponse(testName, mockedHttpServletResponse)
+
+        // then
+        assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.CONFLICT.value())
+
+        logTestEnded(testName)
+    }
+
+    @Test
+    fun deleteWhenAllItemIdsAreInvalidThenReturnedIsAnEmptyList() {
+        val testName = "deleteWhenSomeItemIdsAreInvalidThenReturnedIsAnEmptyList"
+        logTestStarted(testName)
+
+        if (itemRepository == null) {
+            logRepositoryIsNull(testName)
+            return
+        }
+
+        // given
+        itemRepository.saveAll(items)
+
+        // when
+        val itemIds: MutableList<String> = mutableListOf()
+        items.forEach { item -> itemIds.add(jumbleWord(item.id)) }
+        val mockedHttpServiceResponse = mockHttpDELETEResponse(itemIds) ?: return
+        logMockedHttpResponse(testName, mockedHttpServiceResponse)
+
+        // then
+        assertThat(mockedHttpServiceResponse.contentAsString).isEqualTo(emptyList<String>().toString())
+
+        logTestEnded(testName)
+    }
+
+    private fun jumbleWord(word: String): String {
+        val characters = word.toCharArray()
+        for (i in characters.indices) {
+            val randomIndex = Random.nextInt(i, characters.size)
+            val temp = characters[i]
+            characters[i] = characters[randomIndex]
+            characters[randomIndex] = temp
+        }
+        return String(characters)
+    }
+
     private fun logTestStarted(testName: String) {
         logger.info("[ItemsManagementControllerTest::$testName]: Test started")
     }
@@ -515,6 +756,15 @@ class ItemsManagementControllerTest {
     private fun mockHttpPOSTServletResponse(lines: List<Line>) = mvc?.perform(
         post("/items-management")
             .requestAttr("lines", lines)
+            .accept(MediaType.APPLICATION_JSON)
+    )
+        ?.andReturn()
+        ?.response
+
+
+    private fun mockHttpDELETEResponse(itemIds: List<String>): MockHttpServletResponse? = mvc?.perform(
+        delete(ControllerConstants.CONTROLLER_ROUTE)
+            .requestAttr("itemIds", itemIds)
             .accept(MediaType.APPLICATION_JSON)
     )
         ?.andReturn()

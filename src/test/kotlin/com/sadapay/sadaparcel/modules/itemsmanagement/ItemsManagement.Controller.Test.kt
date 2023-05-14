@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.sadapay.sadaparcel.modules.models.entities.Item
 import com.sadapay.sadaparcel.modules.models.entities.Line
 import com.sadapay.sadaparcel.modules.models.repositories.ItemRepository
+import com.sadapay.sadaparcel.server.rules.SadaParcelHttpHeaderFilter
 import lombok.extern.log4j.Log4j2
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
@@ -82,7 +83,7 @@ class ItemsManagementControllerTest {
         JacksonTester.initFields(this, ObjectMapper())
         mvc = MockMvcBuilders.standaloneSetup(itemsManagementController)
             .setControllerAdvice(ItemsManagementExceptionHandler())
-            .addFilters<StandaloneMockMvcBuilder>(ItemFilter())
+            .addFilters<StandaloneMockMvcBuilder>(SadaParcelHttpHeaderFilter())
             .build()
         logger.info("[${ControllerConstants.TEST_CLASS_NAME}::setUp::MockMvc::Successful]: mvc: $mvc")
     }

@@ -1,4 +1,4 @@
-package com.sadapay.sadaparcel.modules.itemsmanagement
+package com.sadapay.sadaparcel.server.rules
 
 import org.springframework.stereotype.Component
 import java.io.IOException
@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse
 
 
 @Component
-class ItemFilter : Filter {
+class SadaParcelHttpHeaderFilter : Filter {
     override fun init(filterConfig: FilterConfig?) {}
 
     @Throws(IOException::class, ServletException::class)

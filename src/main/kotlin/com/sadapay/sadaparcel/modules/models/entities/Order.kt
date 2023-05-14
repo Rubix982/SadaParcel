@@ -29,4 +29,8 @@ class Order(
         result = 31 * result + offers.hashCode()
         return result
     }
+
+    override fun toString(): String {
+        return "Order(id='$id', items=$items, offers=$offers)"
+    }
 }

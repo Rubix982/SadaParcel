@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*
 
 @RequestMapping("orders")
 @RestController
-class OrdersController {
+class OrderController {
 
     @GetMapping(produces = ["application/json"])
     @ResponseBody

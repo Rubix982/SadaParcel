@@ -6,7 +6,9 @@ import javax.persistence.*
 @Table(name = "items")
 class Item(
     @Id @GeneratedValue
-    var id: String,
+    var id: Int,
+    @Column(nullable = false, unique = true)
+    var itemId: String,
     @Column
     var name: String,
     @Column
@@ -21,15 +23,16 @@ class Item(
     @JoinColumn(name = "order_id")
     var orders: Order? = null
 ) {
-    constructor() : this("", "", "", 0.0, 0.0, null)
+    constructor() : this(1, "", "", "", 0.0, 0.0, null)
 
     constructor(
-        id: String,
+        id: Int,
+        itemId: String,
         name: String,
         description: String,
         price: Double,
         cost: Double
-    ) : this(id, name, description, price, cost, null)
+    ) : this(id, itemId, name, description, price, cost, null)
 
     override fun equals(other: Any?): Boolean {
 
@@ -37,7 +40,12 @@ class Item(
             return false
         }
 
-        return other.id == this.id && other.name == this.name && other.description == this.description && other.price == this.price && other.cost == this.cost
+        return (other.id == id
+                && other.itemId == itemId
+                && other.name == name
+                && other.description == description
+                && other.price == price
+                && other.cost == cost)
     }
 
     override fun hashCode(): Int {
@@ -50,6 +58,13 @@ class Item(
     }
 
     override fun toString(): String {
-        return "Item(id='$id', name='$name', description='$description', price=$price, cost=$cost, line=$line, orders=$orders)"
+        return "Item(id='$id', " +
+                "itemId='$itemId' " +
+                "name='$name', " +
+                "description='$description', " +
+                "price=$price, " +
+                "cost=$cost, " +
+                "line=$line, " +
+                "orders=$orders)"
     }
 }

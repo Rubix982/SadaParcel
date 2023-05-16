@@ -17,8 +17,6 @@ class Item(
     var price: Double,
     @Column
     var cost: Double,
-    @OneToOne(mappedBy = "items")
-    var line: Line?,
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "order_id")
     var orders: Order? = null
@@ -64,7 +62,6 @@ class Item(
                 "description='$description', " +
                 "price=$price, " +
                 "cost=$cost, " +
-                "line=$line, " +
                 "orders=$orders)"
     }
 }

@@ -54,21 +54,21 @@ class ItemsManagementControllerTest {
 
     private val items: List<Item> = List(3) {
         Item(
-            id = "minim aliqua",
+            itemId = "minim aliqua",
             name = "Excepteur sunt labore dolor",
             description = "sint velit deserunt laborum",
             price = -54939028.11428884,
             cost = -31369367.44365509
         )
         Item(
-            id = "consectetur deserunt ipsum lab",
+            itemId = "consectetur deserunt ipsum lab",
             name = "veniam nulla labore eiusmod",
             description = "ea amet sint dolor",
             price = -5493538.6548884,
             cost = -313267.4547509
         )
         Item(
-            id = "Nemo enim ipsam",
+            itemId = "Nemo enim ipsam",
             name = "voluptatem quia voluptas sit aspernatur",
             description = "aut odit aut fugit, sed quia consequuntur magni dolores",
             price = -5734528.115454,
@@ -186,7 +186,7 @@ class ItemsManagementControllerTest {
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        assertThat(itemRepository.findAll().size).isEqualTo(1)
+        assertThat(itemRepository.findAll().count()).isEqualTo(1)
 
         logTestEnded(testName)
     }
@@ -211,7 +211,8 @@ class ItemsManagementControllerTest {
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        val item = itemRepository.findAll()[0]
+        val itemsFromRepository = itemRepository.findAll()
+        val item = itemsFromRepository.elementAt(0)
         assertThat(item == items[0]).isEqualTo(true)
 
         logTestEnded(testName)
@@ -230,7 +231,7 @@ class ItemsManagementControllerTest {
         // given
         itemRepository.deleteAll()
         itemRepository.save(items[0])
-        given(itemRepository.findAll().size).willReturn(1)
+        given(itemRepository.findAll().count()).willReturn(1)
 
         // when
         val line = List(1) { Line(1, items[1], 10) }
@@ -256,7 +257,7 @@ class ItemsManagementControllerTest {
         // given
         itemRepository.deleteAll()
         itemRepository.save(items[0])
-        given(itemRepository.findAll().size).willReturn(1)
+        given(itemRepository.findAll().count()).willReturn(1)
 
         // when
         val line = List(1) { Line(1, items[0], 10) }
@@ -282,7 +283,7 @@ class ItemsManagementControllerTest {
         // given
         itemRepository.deleteAll()
         itemRepository.save(items[0])
-        given(itemRepository.findAll().size).willReturn(1)
+        given(itemRepository.findAll().count()).willReturn(1)
 
         // when
         val line = List(1) { Line(1, items[0], 10) }
@@ -291,7 +292,7 @@ class ItemsManagementControllerTest {
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        assertThat(itemRepository.findAll()[0]?.name).isEqualTo("new name")
+        assertThat(itemRepository.findAll().elementAt(0)?.name).isEqualTo("new name")
 
         logTestEnded(testName)
     }
@@ -333,7 +334,7 @@ class ItemsManagementControllerTest {
 
         // given
         itemRepository.deleteAll()
-        val totalItems = itemRepository.findAll().size
+        val totalItems = itemRepository.findAll().count()
         given(totalItems).willReturn(0)
 
         // when
@@ -358,7 +359,7 @@ class ItemsManagementControllerTest {
 
         // given
         itemRepository.deleteAll()
-        val totalItems = itemRepository.findAll().size
+        val totalItems = itemRepository.findAll().count()
         given(totalItems).willReturn(0)
 
         // when
@@ -384,7 +385,7 @@ class ItemsManagementControllerTest {
         // given
         itemRepository.deleteAll()
         itemRepository.save(items[0])
-        val totalItems = itemRepository.findAll().size
+        val totalItems = itemRepository.findAll().count()
         given(totalItems).willReturn(1)
 
         // when
@@ -410,7 +411,7 @@ class ItemsManagementControllerTest {
         // given
         itemRepository.deleteAll()
         itemRepository.save(items[0])
-        val totalItems = itemRepository.findAll().size
+        val totalItems = itemRepository.findAll().count()
         given(totalItems).willReturn(1)
 
         // when
@@ -437,7 +438,7 @@ class ItemsManagementControllerTest {
         itemRepository.deleteAll()
         itemRepository.save(items[0])
         itemRepository.save(items[0])
-        val totalItems = itemRepository.findAll().size
+        val totalItems = itemRepository.findAll().count()
         given(totalItems).willReturn(2)
 
         // when
@@ -491,14 +492,14 @@ class ItemsManagementControllerTest {
         }
 
         // given
-        val itemCount = itemRepository.findAll().size
+        val itemCount = itemRepository.findAll().count()
 
         // when
         val mockedHttpServletResponse = mockHttpDELETEResponse(emptyList()) ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        assertThat(itemRepository.findAll().size).isEqualTo(itemCount)
+        assertThat(itemRepository.findAll().count()).isEqualTo(itemCount)
 
         logTestEnded(testName)
     }
@@ -538,12 +539,12 @@ class ItemsManagementControllerTest {
 
         // when
         val itemIds: MutableList<String> = mutableListOf()
-        items.forEach { item -> itemIds.add(item.id) }
+        items.forEach { item -> itemIds.add(item.itemId) }
         val mockedHttpServletResponse = mockHttpDELETEResponse(itemIds) ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        assertThat(itemRepository.findAll().size).isEqualTo(0)
+        assertThat(itemRepository.findAll().count()).isEqualTo(0)
 
         logTestEnded(testName)
     }
@@ -563,7 +564,7 @@ class ItemsManagementControllerTest {
 
         // when
         val itemIds: MutableList<String> = mutableListOf()
-        items.forEach { item -> itemIds.add(item.id) }
+        items.forEach { item -> itemIds.add(item.itemId) }
         val mockedHttpServletResponse = mockHttpDELETEResponse(itemIds) ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
@@ -588,7 +589,7 @@ class ItemsManagementControllerTest {
 
         // when
         val itemIds: MutableList<String> = mutableListOf()
-        items.forEach { item -> itemIds.add(item.id) }
+        items.forEach { item -> itemIds.add(item.itemId) }
         val mockedHttpServletResponse = mockHttpDELETEResponse(itemIds) ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
@@ -615,7 +616,7 @@ class ItemsManagementControllerTest {
         val itemIds: MutableList<String> = mutableListOf()
         items.forEachIndexed { index, item ->
             run {
-                var itemId: String = item.id
+                var itemId: String = item.itemId
                 if (index < 3) itemId = jumbleWord(itemId)
                 itemIds.add(itemId)
             }
@@ -646,7 +647,7 @@ class ItemsManagementControllerTest {
         val itemIds: MutableList<String> = mutableListOf()
         items.forEachIndexed { index, item ->
             run {
-                var itemId: String = item.id
+                var itemId: String = item.itemId
                 if (index < 3) itemId = jumbleWord(itemId)
                 itemIds.add(itemId)
             }
@@ -675,7 +676,7 @@ class ItemsManagementControllerTest {
 
         // when
         val itemIds: MutableList<String> = mutableListOf()
-        items.forEach { item -> itemIds.add(jumbleWord(item.id)) }
+        items.forEach { item -> itemIds.add(jumbleWord(item.itemId)) }
         val mockedHttpServletResponse = mockHttpDELETEResponse(itemIds) ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
@@ -700,7 +701,7 @@ class ItemsManagementControllerTest {
 
         // when
         val itemIds: MutableList<String> = mutableListOf()
-        items.forEach { item -> itemIds.add(jumbleWord(item.id)) }
+        items.forEach { item -> itemIds.add(jumbleWord(item.itemId)) }
         val mockedHttpServiceResponse = mockHttpDELETEResponse(itemIds) ?: return
         logMockedHttpResponse(testName, mockedHttpServiceResponse)
 

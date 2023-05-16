@@ -16,6 +16,6 @@ class ItemServiceTest(@Autowired private val itemManagementService: ItemsManagem
         // When Hibernate creates initial records
 
         // Then the list is empty
-        assert(items?.size == 0)
+        assert(items.count() == 0)
     }
 }

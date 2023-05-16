@@ -11,11 +11,11 @@ class ItemServiceTest(@Autowired private val itemService: ItemService) {
     fun whenApplicationStarts_ThenHibernateCreatesInitialRecords() {
 
         // Given a fetched list from the ItemService
-        val items = itemService.list()
+        val items = itemService.findAll()
 
         // When Hibernate creates initial records
 
         // Then the list is empty
-        assert(items?.size == 0)
+        assert(items.count() == 0)
     }
 }

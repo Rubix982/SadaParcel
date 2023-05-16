@@ -5,13 +5,13 @@ import com.sadapay.sadaparcel.modules.models.entities.Item
 import com.sadapay.sadaparcel.modules.models.repositories.ItemRepository
 import com.sadapay.sadaparcel.server.rules.SadaParcelHttpHeaderFilter
 import lombok.extern.log4j.Log4j2
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.runner.RunWith
-import org.mockito.BDDMockito
+import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
@@ -51,21 +51,21 @@ class ItemControllerTest {
 
     private val items: List<Item> = List(5) {
         Item(
-            id = "minim aliqua",
+            itemId = "minim aliqua",
             name = "Excepteur sunt labore dolor",
             description = "sint velit deserunt laborum",
             price = -54939028.11428884,
             cost = -31369367.44365509
         )
         Item(
-            id = "consectetur deserunt ipsum lab",
+            itemId = "consectetur deserunt ipsum lab",
             name = "veniam nulla labore eiusmod",
             description = "ea amet sint dolor",
             price = -5493538.6548884,
             cost = -313267.4547509
         )
         Item(
-            id = "Nemo enim ipsam",
+            itemId = "Nemo enim ipsam",
             name = "voluptatem quia voluptas sit aspernatur",
             description = "aut odit aut fugit, sed quia consequuntur magni dolores",
             price = -5734528.115454,
@@ -107,15 +107,15 @@ class ItemControllerTest {
 
         // given
         itemRepository.deleteAll()
-        val totalItems = itemRepository.findAll().size
-        BDDMockito.given(totalItems).willReturn(0)
+        val totalItems = itemRepository.findAll().count()
+        given(totalItems).willReturn(0)
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(mockedHttpServletResponse.contentLength).isEqualTo(totalItems)
+        assertThat(mockedHttpServletResponse.contentLength).isEqualTo(totalItems)
 
         logTestEnded(testName)
     }
@@ -132,15 +132,15 @@ class ItemControllerTest {
 
         // given
         itemRepository.deleteAll()
-        val totalItems = itemRepository.findAll().size
-        BDDMockito.given(totalItems).willReturn(0)
+        val totalItems = itemRepository.findAll().count()
+        given(totalItems).willReturn(0)
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.OK.value())
+        assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.OK.value())
 
         logTestEnded(testName)
     }
@@ -158,15 +158,15 @@ class ItemControllerTest {
         // given
         itemRepository.deleteAll()
         itemRepository.save(items[0])
-        val totalItems = itemRepository.findAll().size
-        BDDMockito.given(totalItems).willReturn(1)
+        val totalItems = itemRepository.findAll().count()
+        given(totalItems).willReturn(1)
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(mockedHttpServletResponse.contentLength).isEqualTo(totalItems)
+        assertThat(mockedHttpServletResponse.contentLength).isEqualTo(totalItems)
 
         logTestEnded(testName)
     }
@@ -184,15 +184,15 @@ class ItemControllerTest {
         // given
         itemRepository.deleteAll()
         itemRepository.save(items[0])
-        val totalItems = itemRepository.findAll().size
-        BDDMockito.given(totalItems).willReturn(1)
+        val totalItems = itemRepository.findAll().count()
+        given(totalItems).willReturn(1)
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.OK.value())
+        assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.OK.value())
 
         logTestEnded(testName)
     }
@@ -211,15 +211,15 @@ class ItemControllerTest {
         itemRepository.deleteAll()
         itemRepository.save(items[0])
         itemRepository.save(items[0])
-        val totalItems = itemRepository.findAll().size
-        BDDMockito.given(totalItems).willReturn(2)
+        val totalItems = itemRepository.findAll().count()
+        given(totalItems).willReturn(2)
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.OK.value())
+        assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.OK.value())
 
         logTestStarted(testName)
     }
@@ -234,7 +234,7 @@ class ItemControllerTest {
         val response: MockHttpServletResponse? = mockHttpGETServletResponse()
 
         // then
-        Assertions.assertThat(response?.status).isEqualTo(HttpStatus.OK.value())
+        assertThat(response?.status).isEqualTo(HttpStatus.OK.value())
 
         logTestEnded(testName)
     }
@@ -249,7 +249,7 @@ class ItemControllerTest {
         val response: MockHttpServletResponse? = mockHttpGETServletResponse()
 
         // then
-        Assertions.assertThat(response?.getHeaders("X-SADAPARCEL-APP")).containsOnly("sadaparcel-header")
+        assertThat(response?.getHeaders("X-SADAPARCEL-APP")).containsOnly("sadaparcel-header")
 
         logTestEnded(testName)
     }

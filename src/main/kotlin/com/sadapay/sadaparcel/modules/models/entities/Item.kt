@@ -1,5 +1,6 @@
 package com.sadapay.sadaparcel.modules.models.entities
 
+import com.sadapay.sadaparcel.modules.item.ItemDTO
 import javax.persistence.*
 
 @Entity
@@ -32,6 +33,18 @@ class Item(
         cost: Double
     ) : this(id, itemId, name, description, price, cost, null)
 
+    constructor(
+        itemId: String,
+        name: String,
+        description: String,
+        price: Double,
+        cost: Double
+    ) : this(1, itemId, name, description, price, cost, null)
+
+    constructor(
+        itemDTO: ItemDTO
+    ) : this(1, itemDTO.itemId, itemDTO.name, itemDTO.description, itemDTO.price, itemDTO.cost)
+
     override fun equals(other: Any?): Boolean {
 
         if (other !is Item) {
@@ -48,6 +61,7 @@ class Item(
 
     override fun hashCode(): Int {
         var result = id.hashCode()
+        result = 31 * result + itemId.hashCode()
         result = 31 * result + name.hashCode()
         result = 31 * result + description.hashCode()
         result = 31 * result + price.hashCode()

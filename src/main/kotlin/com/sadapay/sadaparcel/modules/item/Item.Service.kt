@@ -13,4 +13,10 @@ class ItemService(
     fun findAll(): MutableIterable<Item?> {
         return itemRepository.findAll()
     }
+
+    fun persistItem(itemDTO: ItemDTO): Item {
+
+        val item = Item(itemDTO)
+        return itemRepository.save(item)
+    }
 }

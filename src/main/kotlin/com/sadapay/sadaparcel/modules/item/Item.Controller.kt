@@ -1,15 +1,15 @@
 package com.sadapay.sadaparcel.modules.item
 
-import com.sadapay.sadaparcel.modules.models.entities.Item
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("items")
-class ItemsController {
-    @GetMapping("/", produces = ["application/json"])
+class ItemsController(
+    @Autowired val itemService: ItemService
+) {
+    @GetMapping("/items", produces = ["application/json"])
     @ResponseBody
-    fun index() = listOf<Item>()
+    fun index() = itemService.findAll()
 }

@@ -10,7 +10,7 @@ class ItemsManagementService(
     @Autowired
     val itemRepository: ItemRepository
 ) {
-    fun list(): List<Item?>? {
+    fun list(): MutableIterable<Item?> {
         return itemRepository.findAll()
     }
 }

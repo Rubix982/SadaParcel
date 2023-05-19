@@ -1,6 +1,6 @@
 package com.sadapay.sadaparcel.modules.models.entities
 
-import com.sadapay.sadaparcel.modules.item.ItemDTO
+import com.sadapay.sadaparcel.modules.item.ItemDto
 import javax.persistence.*
 
 @Entity
@@ -42,7 +42,7 @@ class Item(
     ) : this(1, itemId, name, description, price, cost, null)
 
     constructor(
-        itemDTO: ItemDTO
+        itemDTO: ItemDto
     ) : this(1, itemDTO.itemId, itemDTO.name, itemDTO.description, itemDTO.price, itemDTO.cost)
 
     override fun equals(other: Any?): Boolean {

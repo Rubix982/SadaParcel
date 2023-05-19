@@ -1,11 +1,13 @@
 package com.sadapay.sadaparcel.modules.item
 
+import org.jetbrains.annotations.NotNull
 import java.io.Serializable
 
 /**
  * A DTO for the {@link com.sadapay.sadaparcel.modules.models.entities.Item} entity
  */
-data class ItemDTO(
+data class ItemDto(
+    @NotNull
     var itemId: String = "",
     var name: String = "",
     var description: String = "",
@@ -18,7 +20,7 @@ data class ItemDTO(
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other !is ItemDTO) return false
+        if (other !is ItemDto) return false
         if (itemId != other.itemId) return false
         if (name != other.name) return false
         if (description != other.description) return false

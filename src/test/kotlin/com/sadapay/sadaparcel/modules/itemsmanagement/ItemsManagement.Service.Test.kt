@@ -11,7 +11,7 @@ class ItemServiceTest(@Autowired private val itemManagementService: ItemsManagem
     fun whenApplicationStarts_ThenHibernateCreatesInitialRecords() {
 
         // Given a fetched list from the ItemService
-        val items = itemManagementService.list()
+        val items = itemManagementService.findAll()
 
         // When Hibernate creates initial records
 

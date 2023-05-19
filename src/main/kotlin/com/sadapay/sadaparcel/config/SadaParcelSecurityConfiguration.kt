@@ -15,6 +15,7 @@ class SadaParcelSecurityConfiguration {
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http.requestMatcher(EndpointRequest.toAnyEndpoint())
             .authorizeHttpRequests { requests -> requests.anyRequest().permitAll() }
+        http.authorizeRequests { requests -> requests.anyRequest().authenticated() }
         return http.build()
     }
 }

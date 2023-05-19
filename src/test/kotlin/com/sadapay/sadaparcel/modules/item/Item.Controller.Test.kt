@@ -14,6 +14,7 @@ import org.junit.runner.RunWith
 import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks
 import org.mockito.Mock
+import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.junit.jupiter.MockitoExtension
 import org.slf4j.Logger
@@ -39,7 +40,7 @@ class ItemControllerTest {
     private var mvc: MockMvc? = null
 
     @InjectMocks
-    private val itemsController: ItemsController? = null
+    private lateinit var itemsController: ItemsController
 
     @Mock
     private val itemRepository: ItemRepository? = null
@@ -75,6 +76,7 @@ class ItemControllerTest {
 
     @BeforeEach
     fun setUp() {
+        MockitoAnnotations.openMocks(this)
         logger.info("[${ControllerConstants.TEST_CLASS_NAME}::setUp]: Setup complete")
 
         JacksonTester.initFields(this, ObjectMapper())
@@ -107,15 +109,13 @@ class ItemControllerTest {
 
         // given
         itemRepository.deleteAll()
-        val totalItems = itemRepository.findAll().count()
-        given(totalItems).willReturn(0)
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        assertThat(mockedHttpServletResponse.contentLength).isEqualTo(totalItems)
+        assertThat(mockedHttpServletResponse.contentLength).isEqualTo(0)
 
         logTestEnded(testName)
     }
@@ -132,8 +132,6 @@ class ItemControllerTest {
 
         // given
         itemRepository.deleteAll()
-        val totalItems = itemRepository.findAll().count()
-        given(totalItems).willReturn(0)
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
@@ -158,15 +156,14 @@ class ItemControllerTest {
         // given
         itemRepository.deleteAll()
         itemRepository.save(items[0])
-        val totalItems = itemRepository.findAll().count()
-        given(totalItems).willReturn(1)
+        given(itemRepository.findAll()).willReturn(listOf(items[0]))
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        assertThat(mockedHttpServletResponse.contentLength).isEqualTo(totalItems)
+        assertThat(mockedHttpServletResponse.contentLength).isEqualTo(itemRepository.findAll().count())
 
         logTestEnded(testName)
     }
@@ -255,19 +252,19 @@ class ItemControllerTest {
     }
 
     private fun logTestStarted(testName: String) {
-        logger.info("[ItemsManagementControllerTest::$testName]: Test started")
+        logger.info("[${ControllerConstants.TEST_CLASS_NAME}::$testName]: Test started")
     }
 
     private fun logTestEnded(testName: String) {
-        logger.info("[ItemsManagementControllerTest::$testName]: Test ended")
+        logger.info("[${ControllerConstants.TEST_CLASS_NAME}::$testName]: Test ended")
     }
 
     private fun logMockedHttpResponse(testName: String, mockedHttpServletResponse: MockHttpServletResponse) {
-        logger.info("[ItemsManagementControllerTest::$testName]: mockedHttpServletResponse: $mockedHttpServletResponse")
+        logger.info("[${ControllerConstants.TEST_CLASS_NAME}::$testName]: mockedHttpServletResponse: $mockedHttpServletResponse")
     }
 
     private fun logRepositoryIsNull(testName: String) {
-        logger.error("[ItemsManagementControllerTest::$testName]: itemRepository is null")
+        logger.error("[${ControllerConstants.TEST_CLASS_NAME}::$testName]: itemRepository is null")
     }
 
     private fun mockHttpGETServletResponse(): MockHttpServletResponse? = mvc?.perform(

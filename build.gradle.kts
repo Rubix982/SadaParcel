@@ -18,6 +18,7 @@ repositories {
 
 dependencies {
 	implementation("commons-io:commons-io:2.5")
+	implementation("javax.validation:validation-api:2.0.1.Final")
 	implementation("org.springframework.boot:spring-boot-starter")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-log4j2")
@@ -34,6 +35,7 @@ dependencies {
 	implementation("com.h2database:h2:2.1.214")
 	implementation("org.apache.tomcat:tomcat-dbcp:10.1.8")
 	implementation("org.apache.commons:commons-dbcp2:2.9.0")
+	implementation("org.hibernate.validator:hibernate-validator:6.0.2.Final")
 	testImplementation("org.projectlombok:lombok:1.18.20")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.mockito:mockito-core:3.7.0")

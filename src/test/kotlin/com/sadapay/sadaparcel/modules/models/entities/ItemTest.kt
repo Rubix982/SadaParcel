@@ -62,7 +62,7 @@ internal class ItemTest {
         // given
         val item = Item("id", "name", "description", 0.0, 0.0)
         val itemAsString =
-            "Item(id='id', name='name', description='description', price=0.0, cost=0.0, line=null, orders=null)"
+            "Item(id='1', itemId='id', name='name', description='description', price=0.0, cost=0.0, orders=null)"
 
         // then
         assertThat(item.toString()).isEqualTo(itemAsString)

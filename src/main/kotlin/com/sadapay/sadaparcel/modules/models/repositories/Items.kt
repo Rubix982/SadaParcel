@@ -5,12 +5,13 @@ import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
+import java.util.*
 
 @Repository
 interface ItemRepository : CrudRepository<Item?, Long?> {
-    fun findByItemId(itemId: String): Item?
+    fun findByItemId(itemId: String): Optional<Item>
 
-    @Query("SELECT COUNT() FROM Item i WHERE i.itemId IN :itemIds")
+    @Query("SELECT COUNT(*) FROM Item i WHERE i.itemId IN :itemIds")
     fun countByItemIds(itemIds: List<String>): Long
 
     @Modifying

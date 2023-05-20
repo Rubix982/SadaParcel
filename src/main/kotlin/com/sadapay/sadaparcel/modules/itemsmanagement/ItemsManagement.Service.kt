@@ -30,4 +30,13 @@ class ItemsManagementService(
 
         return itemRepository.save(item)
     }
+
+    fun areAllIdsValid(itemIds: List<String>): Boolean {
+        val count: Long = itemRepository.countByItemIds(itemIds)
+        return count == itemIds.size.toLong()
+    }
+
+    fun deleteItems(itemIds: List<String>) {
+        itemRepository.deleteByItemIds(itemIds)
+    }
 }

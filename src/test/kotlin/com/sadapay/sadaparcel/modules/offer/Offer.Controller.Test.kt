@@ -51,7 +51,7 @@ internal class OfferControllerTest {
 
     private val offers: List<Offer> = List(3) {
         Offer(
-            id = "1",
+            offerId = "1",
             name = "Offer 1",
             description = "Offer 1 description",
             itemId = "item1",
@@ -59,7 +59,7 @@ internal class OfferControllerTest {
             quantityThreshold = 0
         )
         Offer(
-            id = "2",
+            offerId = "2",
             name = "Offer 2",
             description = "Offer 2 description",
             itemId = "item2",
@@ -67,7 +67,7 @@ internal class OfferControllerTest {
             quantityThreshold = 0
         )
         Offer(
-            id = "3",
+            offerId = "3",
             name = "Offer 3",
             description = "Offer 3 description",
             itemId = "item2",

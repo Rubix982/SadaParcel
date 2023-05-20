@@ -48,6 +48,15 @@ class Offer(
         quantityThreshold: Int
     ) : this(id, offerId, itemId, name, description, priceReduction, quantityThreshold, null)
 
+    constructor(
+        offerId: String,
+        itemId: String,
+        name: String,
+        description: String,
+        priceReduction: Double,
+        quantityThreshold: Int
+    ) : this(1, offerId, itemId, name, description, priceReduction, quantityThreshold, null)
+
     override fun equals(other: Any?): Boolean {
 
         if (other !is Offer) {

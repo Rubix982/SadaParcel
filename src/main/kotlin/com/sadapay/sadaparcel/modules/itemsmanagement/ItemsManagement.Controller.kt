@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
-class ItemsManagementController @Autowired constructor(itemsManagementService: ItemsManagementService) {
+class ItemsManagementController @Autowired constructor(itemsManagementService: ItemsManagementService?) {
 
-    private val itemsManagementService: ItemsManagementService
+    private val itemsManagementService: ItemsManagementService?
 
     init {
         this.itemsManagementService = itemsManagementService
@@ -20,7 +20,7 @@ class ItemsManagementController @Autowired constructor(itemsManagementService: I
     @GetMapping("/items-management", produces = ["application/json"])
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    fun index(): MutableIterable<Item?> = itemsManagementService.findAll()
+    fun index(): MutableIterable<Item?>? = itemsManagementService?.findAll()
 
     @PostMapping("/items-management", produces = ["application/json"])
     @ResponseStatus(HttpStatus.OK)
@@ -31,7 +31,7 @@ class ItemsManagementController @Autowired constructor(itemsManagementService: I
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(itemDto)
         }
 
-        itemsManagementService.save(itemDto)
+        itemsManagementService?.save(itemDto)
         return ResponseEntity.status(HttpStatus.CREATED).body(itemDto)
     }
 
@@ -43,8 +43,15 @@ class ItemsManagementController @Autowired constructor(itemsManagementService: I
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(listOf())
         }
 
-        // TODO: If itemIds has some or all invalid Ids, return a 409 Conflict
-        // https://stackoverflow.com/questions/25122472/rest-http-status-code-if-delete-impossible
+        itemsManagementService?.areAllIdsValid(itemIds)?.let { areAllIdsValid ->
+            if (!areAllIdsValid) {
+                // If itemIds has some or all invalid Ids, return a 409 Conflict
+                // https://stackoverflow.com/questions/25122472/rest-http-status-code-if-delete-impossible
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(listOf())
+            }
+        }
+
+        itemsManagementService?.deleteItems(itemIds)
 
         return ResponseEntity.status(HttpStatus.OK).body(itemIds)
     }

@@ -71,7 +71,7 @@ class Item(
 
     override fun toString(): String {
         return "Item(id='$id', " +
-                "itemId='$itemId' " +
+                "itemId='$itemId', " +
                 "name='$name', " +
                 "description='$description', " +
                 "price=$price, " +

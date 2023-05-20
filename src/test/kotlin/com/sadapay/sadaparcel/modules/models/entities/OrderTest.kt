@@ -76,8 +76,8 @@ internal class OrderTest {
 
         // given
         val order = Order("id", listOf(Item("id", "name", "description", 0.0, 0.0)), emptyList())
-        val orderAsString = "Order(id='id', items=[Item(id='id', name='name', description='description', price=0.0, " +
-                "cost=0.0, line=null, orders=null)], offers=[])"
+        val orderAsString = "Order(id='id', items=[Item(id='1', itemId='id', name='name', description='description', " +
+                "price=0.0, cost=0.0, orders=null)], offers=[])"
 
         // then
         assertThat(order.toString()).isEqualTo(orderAsString)

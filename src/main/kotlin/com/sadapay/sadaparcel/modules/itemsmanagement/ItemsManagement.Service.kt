@@ -5,6 +5,7 @@ import com.sadapay.sadaparcel.modules.models.entities.Item
 import com.sadapay.sadaparcel.modules.models.repositories.ItemRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class ItemsManagementService(
@@ -17,18 +18,17 @@ class ItemsManagementService(
 
     fun save(itemDto: ItemDto): Item {
 
-        var item: Item? = itemRepository.findByItemId(itemDto.itemId)
+        var item: Optional<Item> = itemRepository.findByItemId(itemDto.itemId)
 
-        if (item == null) {
-            item = Item(itemDto)
+        if (item.isEmpty) {
+            item = Optional.of(Item(itemDto))
         } else {
-            item.name = itemDto.name
-            item.description = itemDto.description
-            item.price = itemDto.price
-            item.cost = itemDto.cost
+            item.get().name = itemDto.name
+            item.get().description = itemDto.description
+            item.get().price = itemDto.price
         }
 
-        return itemRepository.save(item)
+        return itemRepository.save(item.get())
     }
 
     fun areAllIdsValid(itemIds: List<String>): Boolean {

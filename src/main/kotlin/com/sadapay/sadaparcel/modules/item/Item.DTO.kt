@@ -40,11 +40,11 @@ data class ItemDto(
 
     override fun toString(): String {
         return "ItemDTO{" +
-                "itemId='" + itemId + '\'' +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", cost=" + cost +
+                "itemId='$itemId', " +
+                "name='$name', " +
+                "description='$description', " +
+                "price=$price, " +
+                "cost=$cost" +
                 '}'
     }
 }

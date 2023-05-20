@@ -35,7 +35,7 @@ class ItemsManagementController @Autowired constructor(itemsManagementService: I
         return ResponseEntity.status(HttpStatus.CREATED).body(itemDto)
     }
 
-    @DeleteMapping(produces = ["application/json"])
+    @DeleteMapping("/items-management", produces = ["application/json"])
     @ResponseBody
     fun remove(itemIds: List<String>): ResponseEntity<List<String>> {
 

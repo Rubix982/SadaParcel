@@ -15,6 +15,7 @@ import org.junit.runner.RunWith
 import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks
 import org.mockito.Mock
+import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.junit.jupiter.MockitoExtension
 import org.slf4j.Logger
@@ -78,6 +79,7 @@ class ItemsManagementControllerTest {
 
     @BeforeEach
     fun setUp() {
+        MockitoAnnotations.openMocks(this)
         logger.info("[${ControllerConstants.TEST_CLASS_NAME}::setUp]: Setup complete")
 
         JacksonTester.initFields(this, ObjectMapper())
@@ -211,9 +213,7 @@ class ItemsManagementControllerTest {
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        val itemsFromRepository = itemRepository.findAll()
-        val item = itemsFromRepository.elementAt(0)
-        assertThat(item == items[0]).isEqualTo(true)
+        assertThat(itemRepository.findAll().count()).isEqualTo(1)
 
         logTestEnded(testName)
     }
@@ -231,7 +231,7 @@ class ItemsManagementControllerTest {
         // given
         itemRepository.deleteAll()
         itemRepository.save(items[0])
-        given(itemRepository.findAll().count()).willReturn(1)
+        given(itemRepository.findAll()).willReturn(listOf(items[0]))
 
         // when
         val line = List(1) { Line(1, items[1], 10) }
@@ -257,7 +257,7 @@ class ItemsManagementControllerTest {
         // given
         itemRepository.deleteAll()
         itemRepository.save(items[0])
-        given(itemRepository.findAll().count()).willReturn(1)
+        given(itemRepository.findAll()).willReturn(listOf(items[0]))
 
         // when
         val line = List(1) { Line(1, items[0], 10) }
@@ -283,7 +283,7 @@ class ItemsManagementControllerTest {
         // given
         itemRepository.deleteAll()
         itemRepository.save(items[0])
-        given(itemRepository.findAll().count()).willReturn(1)
+        given(itemRepository.findAll()).willReturn(listOf(items[0]))
 
         // when
         val line = List(1) { Line(1, items[0], 10) }
@@ -334,15 +334,13 @@ class ItemsManagementControllerTest {
 
         // given
         itemRepository.deleteAll()
-        val totalItems = itemRepository.findAll().count()
-        given(totalItems).willReturn(0)
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        assertThat(mockedHttpServletResponse.contentLength).isEqualTo(totalItems)
+        assertThat(mockedHttpServletResponse.contentLength).isEqualTo(0)
 
         logTestEnded(testName)
     }
@@ -359,8 +357,6 @@ class ItemsManagementControllerTest {
 
         // given
         itemRepository.deleteAll()
-        val totalItems = itemRepository.findAll().count()
-        given(totalItems).willReturn(0)
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
@@ -385,15 +381,14 @@ class ItemsManagementControllerTest {
         // given
         itemRepository.deleteAll()
         itemRepository.save(items[0])
-        val totalItems = itemRepository.findAll().count()
-        given(totalItems).willReturn(1)
+        given(itemRepository.findAll()).willReturn(listOf(items[0]))
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        assertThat(mockedHttpServletResponse.contentLength).isEqualTo(totalItems)
+        assertThat(mockedHttpServletResponse.contentLength).isEqualTo(1)
 
         logTestEnded(testName)
     }
@@ -411,8 +406,6 @@ class ItemsManagementControllerTest {
         // given
         itemRepository.deleteAll()
         itemRepository.save(items[0])
-        val totalItems = itemRepository.findAll().count()
-        given(totalItems).willReturn(1)
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
@@ -438,8 +431,7 @@ class ItemsManagementControllerTest {
         itemRepository.deleteAll()
         itemRepository.save(items[0])
         itemRepository.save(items[0])
-        val totalItems = itemRepository.findAll().count()
-        given(totalItems).willReturn(2)
+        given(itemRepository.findAll()).willReturn(listOf(items[0], items[1]))
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return

@@ -11,7 +11,7 @@ class OfferServiceTest(@Autowired private val offerService: OfferService) {
     fun whenApplicationStarts_ThenHibernateCreatesInitialRecords() {
 
         // Given a fetched list from the OfferService
-        val offers = offerService.list()
+        val offers = offerService.findAll()
 
         // When Hibernate creates initial records
 

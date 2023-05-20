@@ -10,7 +10,7 @@ class OfferService(
     @Autowired
     val offerRepository: OfferRepository
 ) {
-    fun list(): List<Offer?>? {
+    fun findAll(): MutableIterable<Offer?> {
         return offerRepository.findAll()
     }
 }

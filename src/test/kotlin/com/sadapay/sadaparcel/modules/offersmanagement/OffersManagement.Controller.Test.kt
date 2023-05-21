@@ -6,13 +6,13 @@ import com.sadapay.sadaparcel.modules.models.entities.Offer
 import com.sadapay.sadaparcel.modules.models.repositories.OfferRepository
 import com.sadapay.sadaparcel.server.rules.SadaParcelHttpHeaderFilter
 import lombok.extern.log4j.Log4j2
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.runner.RunWith
-import org.mockito.BDDMockito
+import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
@@ -112,14 +112,14 @@ internal class OffersManagementControllerTest {
         }
 
         // given
-        BDDMockito.given(offerRepository.findAll()).willReturn(emptyList())
+        given(offerRepository.findAll()).willReturn(emptyList())
 
         // when
         val mockedHttpServletResponse = mockHttpPOSTServletResponse(emptyList()) ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(mockedHttpServletResponse.status).isEqualTo(204)
+        assertThat(mockedHttpServletResponse.status).isEqualTo(204)
 
         logTestEnded(testName)
     }
@@ -139,7 +139,7 @@ internal class OffersManagementControllerTest {
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(mockedHttpServletResponse.contentLength).isEqualTo(0)
+        assertThat(mockedHttpServletResponse.contentLength).isEqualTo(0)
 
         logTestEnded(testName)
     }
@@ -156,7 +156,7 @@ internal class OffersManagementControllerTest {
 
         // given
         offerRepository.deleteAll()
-        BDDMockito.given(offerRepository.findAll()).willReturn(emptyList())
+        given(offerRepository.findAll()).willReturn(emptyList())
 
         // when
         val offer = List(1) { offers[0] }
@@ -164,7 +164,7 @@ internal class OffersManagementControllerTest {
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(mockedHttpServletResponse.status).isEqualTo(201)
+        assertThat(mockedHttpServletResponse.status).isEqualTo(201)
 
         logTestEnded(testName)
     }
@@ -181,7 +181,7 @@ internal class OffersManagementControllerTest {
 
         // given
         offerRepository.deleteAll()
-        BDDMockito.given(offerRepository.findAll()).willReturn(emptyList())
+        given(offerRepository.findAll()).willReturn(emptyList())
 
         // when
         val offer = List(1) { offers[0] }
@@ -189,7 +189,7 @@ internal class OffersManagementControllerTest {
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(offerRepository.findAll().size).isEqualTo(1)
+        assertThat(offerRepository.findAll().count()).isEqualTo(1)
 
         logTestEnded(testName)
     }
@@ -206,7 +206,7 @@ internal class OffersManagementControllerTest {
 
         // given
         offerRepository.deleteAll()
-        BDDMockito.given(offerRepository.findAll()).willReturn(emptyList())
+        given(offerRepository.findAll()).willReturn(emptyList())
 
         // when
         val offer = List(1) { offers[0] }
@@ -214,8 +214,7 @@ internal class OffersManagementControllerTest {
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        val item = offerRepository.findAll()[0]
-        Assertions.assertThat(item == offers[0]).isEqualTo(true)
+        assertThat(offerRepository.findAll()).isEqualTo(listOf(offers[0]))
 
         logTestEnded(testName)
     }
@@ -233,7 +232,7 @@ internal class OffersManagementControllerTest {
         // given
         offerRepository.deleteAll()
         offerRepository.save(offers[0])
-        BDDMockito.given(offerRepository.findAll().size).willReturn(1)
+        given(offerRepository.findAll()).willReturn(listOf(offers[0]))
 
         // when
         val offer = List(1) { offers[1] }
@@ -241,7 +240,7 @@ internal class OffersManagementControllerTest {
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(mockedHttpServletResponse.status).isEqualTo(201)
+        assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.CREATED.value())
 
         logTestEnded(testName)
     }
@@ -259,7 +258,7 @@ internal class OffersManagementControllerTest {
         // given
         offerRepository.deleteAll()
         offerRepository.save(offers[0])
-        BDDMockito.given(offerRepository.findAll().size).willReturn(1)
+        given(offerRepository.findAll()).willReturn(listOf(offers[0]))
 
         // when
         val offer = List(1) { offers[0] }
@@ -267,7 +266,7 @@ internal class OffersManagementControllerTest {
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(mockedHttpServletResponse.status).isEqualTo(200)
+        assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.OK.value())
 
         logTestEnded(testName)
     }
@@ -285,16 +284,19 @@ internal class OffersManagementControllerTest {
         // given
         offerRepository.deleteAll()
         offerRepository.save(offers[0])
-        BDDMockito.given(offerRepository.findAll().size).willReturn(1)
+        given(offerRepository.findAll().count()).willReturn(1)
 
         // when
-        val offer = List(1) { offers[0] }
-        offer[0].name = "new name"
-        val mockedHttpServletResponse = mockHttpPOSTServletResponse(offer) ?: return
+        val firstOffer = List(1) { offers[0] }
+        firstOffer[0].name = "new name"
+        val mockedHttpServletResponse = mockHttpPOSTServletResponse(firstOffer) ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(offerRepository.findAll()[0]?.name).isEqualTo("new name")
+        val offersFromRepository = offerRepository.findAll().toList()
+        val offer: Offer? = offersFromRepository.getOrNull(0)
+        assertThat(offer != null).isEqualTo(true)
+        assertThat(offer?.name).isEqualTo("new name")
 
         logTestEnded(testName)
     }
@@ -319,7 +321,7 @@ internal class OffersManagementControllerTest {
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(mockedHttpServletResponse.contentLength).isEqualTo(offers.size)
+        assertThat(mockedHttpServletResponse.contentLength).isEqualTo(offers.size)
 
         logTestEnded(testName)
     }
@@ -336,15 +338,14 @@ internal class OffersManagementControllerTest {
 
         // given
         offerRepository.deleteAll()
-        val totalItems = offerRepository.findAll().size
-        BDDMockito.given(totalItems).willReturn(0)
+        given(offerRepository.findAll()).willReturn(emptyList())
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(mockedHttpServletResponse.contentLength).isEqualTo(totalItems)
+        assertThat(mockedHttpServletResponse.contentLength).isEqualTo(0)
 
         logTestEnded(testName)
     }
@@ -361,15 +362,14 @@ internal class OffersManagementControllerTest {
 
         // given
         offerRepository.deleteAll()
-        val totalItems = offerRepository.findAll().size
-        BDDMockito.given(totalItems).willReturn(0)
+        given(offerRepository.findAll()).willReturn(emptyList())
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.OK.value())
+        assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.OK.value())
 
         logTestEnded(testName)
     }
@@ -387,15 +387,14 @@ internal class OffersManagementControllerTest {
         // given
         offerRepository.deleteAll()
         offerRepository.save(offers[0])
-        val totalItems = offerRepository.findAll().size
-        BDDMockito.given(totalItems).willReturn(1)
+        given(offerRepository.findAll()).willReturn(listOf(offers[0]))
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(mockedHttpServletResponse.contentLength).isEqualTo(totalItems)
+        assertThat(mockedHttpServletResponse.contentLength).isEqualTo(1)
 
         logTestEnded(testName)
     }
@@ -413,15 +412,14 @@ internal class OffersManagementControllerTest {
         // given
         offerRepository.deleteAll()
         offerRepository.save(offers[0])
-        val totalItems = offerRepository.findAll().size
-        BDDMockito.given(totalItems).willReturn(1)
+        given(offerRepository.findAll()).willReturn(listOf(offers[0]))
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.OK.value())
+        assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.OK.value())
 
         logTestEnded(testName)
     }
@@ -440,15 +438,14 @@ internal class OffersManagementControllerTest {
         offerRepository.deleteAll()
         offerRepository.save(offers[0])
         offerRepository.save(offers[0])
-        val totalItems = offerRepository.findAll().size
-        BDDMockito.given(totalItems).willReturn(2)
+        given(offerRepository.findAll()).willReturn(listOf(offers[0]))
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.OK.value())
+        assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.OK.value())
 
         logTestStarted(testName)
     }
@@ -463,7 +460,7 @@ internal class OffersManagementControllerTest {
         val response: MockHttpServletResponse? = mockHttpGETServletResponse()
 
         // then
-        Assertions.assertThat(response?.status).isEqualTo(HttpStatus.OK.value())
+        assertThat(response?.status).isEqualTo(HttpStatus.OK.value())
 
         logTestEnded(testName)
     }
@@ -478,7 +475,7 @@ internal class OffersManagementControllerTest {
         val response: MockHttpServletResponse? = mockHttpGETServletResponse()
 
         // then
-        Assertions.assertThat(response?.getHeaders("X-SADAPARCEL-APP")).containsOnly("sadaparcel-header")
+        assertThat(response?.getHeaders("X-SADAPARCEL-APP")).containsOnly("sadaparcel-header")
 
         logTestEnded(testName)
     }
@@ -494,14 +491,14 @@ internal class OffersManagementControllerTest {
         }
 
         // given
-        val itemCount = offerRepository.findAll().size
+        val itemCount = offerRepository.findAll().count()
 
         // when
         val mockedHttpServletResponse = mockHttpDELETEResponse(emptyList()) ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(offerRepository.findAll().size).isEqualTo(itemCount)
+        assertThat(offerRepository.findAll().count()).isEqualTo(itemCount)
 
         logTestEnded(testName)
     }
@@ -521,7 +518,7 @@ internal class OffersManagementControllerTest {
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.NO_CONTENT.value())
+        assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.NO_CONTENT.value())
 
         logTestEnded(testName)
     }
@@ -541,12 +538,12 @@ internal class OffersManagementControllerTest {
 
         // when
         val itemIds: MutableList<String> = mutableListOf()
-        offers.forEach { offer -> itemIds.add(offer.id) }
+        offers.forEach { offer -> itemIds.add(offer.itemId) }
         val mockedHttpServletResponse = mockHttpDELETEResponse(itemIds) ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(offerRepository.findAll().size).isEqualTo(0)
+        assertThat(offerRepository.findAll().count()).isEqualTo(0)
 
         logTestEnded(testName)
     }
@@ -566,12 +563,12 @@ internal class OffersManagementControllerTest {
 
         // when
         val itemIds: MutableList<String> = mutableListOf()
-        offers.forEach { offer -> itemIds.add(offer.id) }
+        offers.forEach { offer -> itemIds.add(offer.offerId) }
         val mockedHttpServletResponse = mockHttpDELETEResponse(itemIds) ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.NO_CONTENT.value())
+        assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.NO_CONTENT.value())
 
         logTestEnded(testName)
     }
@@ -591,12 +588,12 @@ internal class OffersManagementControllerTest {
 
         // when
         val itemIds: MutableList<String> = mutableListOf()
-        offers.forEach { offer -> itemIds.add(offer.id) }
+        offers.forEach { offer -> itemIds.add(offer.offerId) }
         val mockedHttpServletResponse = mockHttpDELETEResponse(itemIds) ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(mockedHttpServletResponse.contentAsString).isEqualTo(itemIds.toString())
+        assertThat(mockedHttpServletResponse.contentAsString).isEqualTo(itemIds.toString())
 
         logTestEnded(testName)
     }
@@ -618,7 +615,7 @@ internal class OffersManagementControllerTest {
         val itemIds: MutableList<String> = mutableListOf()
         offers.forEachIndexed { index, offer ->
             run {
-                var itemId: String = offer.id
+                var itemId: String = offer.offerId
                 if (index < 3) itemId = jumbleWord(itemId)
                 itemIds.add(itemId)
             }
@@ -627,7 +624,7 @@ internal class OffersManagementControllerTest {
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.CONFLICT.value())
+        assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.CONFLICT.value())
 
         logTestEnded(testName)
     }
@@ -649,7 +646,7 @@ internal class OffersManagementControllerTest {
         val itemIds: MutableList<String> = mutableListOf()
         offers.forEachIndexed { index, offer ->
             run {
-                var itemId: String = offer.id
+                var itemId: String = offer.offerId
                 if (index < 3) itemId = jumbleWord(itemId)
                 itemIds.add(itemId)
             }
@@ -658,7 +655,7 @@ internal class OffersManagementControllerTest {
         logMockedHttpResponse(testName, mockedHttpServiceResponse)
 
         // then
-        Assertions.assertThat(mockedHttpServiceResponse.contentAsString).isEqualTo(emptyList<String>().toString())
+        assertThat(mockedHttpServiceResponse.contentAsString).isEqualTo(emptyList<String>().toString())
 
         logTestEnded(testName)
     }
@@ -678,12 +675,12 @@ internal class OffersManagementControllerTest {
 
         // when
         val itemIds: MutableList<String> = mutableListOf()
-        offers.forEach { offer -> itemIds.add(jumbleWord(offer.id)) }
+        offers.forEach { offer -> itemIds.add(jumbleWord(offer.offerId)) }
         val mockedHttpServletResponse = mockHttpDELETEResponse(itemIds) ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        Assertions.assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.CONFLICT.value())
+        assertThat(mockedHttpServletResponse.status).isEqualTo(HttpStatus.CONFLICT.value())
 
         logTestEnded(testName)
     }
@@ -703,12 +700,12 @@ internal class OffersManagementControllerTest {
 
         // when
         val itemIds: MutableList<String> = mutableListOf()
-        offers.forEach { offer -> itemIds.add(jumbleWord(offer.id)) }
+        offers.forEach { offer -> itemIds.add(jumbleWord(offer.offerId)) }
         val mockedHttpServiceResponse = mockHttpDELETEResponse(itemIds) ?: return
         logMockedHttpResponse(testName, mockedHttpServiceResponse)
 
         // then
-        Assertions.assertThat(mockedHttpServiceResponse.contentAsString).isEqualTo(emptyList<String>().toString())
+        assertThat(mockedHttpServiceResponse.contentAsString).isEqualTo(emptyList<String>().toString())
 
         logTestEnded(testName)
     }

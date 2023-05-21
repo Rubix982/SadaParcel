@@ -1,17 +1,33 @@
 package com.sadapay.sadaparcel.modules.item
 
+import lombok.Getter
+import lombok.NonNull
+import lombok.RequiredArgsConstructor
+import lombok.experimental.Accessors
 import org.jetbrains.annotations.NotNull
 import java.io.Serializable
 
 /**
  * A DTO for the {@link com.sadapay.sadaparcel.modules.models.entities.Item} entity
  */
+@RequiredArgsConstructor
+@Accessors(fluent = true)
+@Getter
 data class ItemDto(
     @NotNull
+    @NonNull
     var itemId: String = "",
+    @NotNull
+    @NonNull
     var name: String = "",
+    @NotNull
+    @NonNull
     var description: String = "",
+    @NotNull
+    @NonNull
     var price: Double = 0.0,
+    @NotNull
+    @NonNull
     var cost: Double = 0.0
 ) : Serializable {
     companion object {

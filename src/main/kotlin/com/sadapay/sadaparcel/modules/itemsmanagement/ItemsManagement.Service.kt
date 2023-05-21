@@ -22,10 +22,12 @@ class ItemsManagementService(
 
         if (item.isEmpty) {
             item = Optional.of(Item(itemDto))
+            item.get().id = itemRepository.findAll().count() + 1
         } else {
             item.get().name = itemDto.name
             item.get().description = itemDto.description
             item.get().price = itemDto.price
+            item.get().cost = itemDto.cost
         }
 
         return itemRepository.save(item.get())

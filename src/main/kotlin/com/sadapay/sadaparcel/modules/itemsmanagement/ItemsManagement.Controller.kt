@@ -1,6 +1,7 @@
 package com.sadapay.sadaparcel.modules.itemsmanagement
 
-import com.sadapay.sadaparcel.modules.item.ItemDto
+import com.sadapay.sadaparcel.modules.line.LineService
+import com.sadapay.sadaparcel.modules.line.LinesDto
 import com.sadapay.sadaparcel.modules.models.entities.Item
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -9,12 +10,18 @@ import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
-class ItemsManagementController @Autowired constructor(itemsManagementService: ItemsManagementService?) {
+class ItemsManagementController @Autowired constructor(
+    itemsManagementService: ItemsManagementService?,
+    lineService: LineService?
+) {
 
     private val itemsManagementService: ItemsManagementService?
 
+    private val lineService: LineService?
+
     init {
         this.itemsManagementService = itemsManagementService
+        this.lineService = lineService
     }
 
     @GetMapping("/items-management", produces = ["application/json"])
@@ -25,14 +32,15 @@ class ItemsManagementController @Autowired constructor(itemsManagementService: I
     @PostMapping("/items-management", produces = ["application/json"])
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    fun add(@Valid @RequestBody itemDto: ItemDto): ResponseEntity<ItemDto> {
+    fun add(@Valid @RequestBody lines: LinesDto): ResponseEntity<LinesDto> {
 
-        if (itemDto.itemId.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(itemDto)
+
+        if (lines.lines.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(lines)
         }
 
-        itemsManagementService?.save(itemDto)
-        return ResponseEntity.status(HttpStatus.CREATED).body(itemDto)
+        lineService?.save(lines)
+        return ResponseEntity.status(HttpStatus.CREATED).body(lines)
     }
 
     @DeleteMapping("/items-management", produces = ["application/json"])

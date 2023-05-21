@@ -1,19 +1,36 @@
 package com.sadapay.sadaparcel.modules.offer
 
+import lombok.Getter
+import lombok.NonNull
+import lombok.RequiredArgsConstructor
+import lombok.experimental.Accessors
 import java.io.Serializable
 import javax.validation.constraints.NotNull
 
 /**
  * A DTO for the {@link com.sadapay.sadaparcel.modules.models.entities.Offer} entity
  */
+@RequiredArgsConstructor
+@Accessors(fluent = true)
+@Getter
 data class OfferDto(
     @NotNull
+    @NonNull
     val offerId: String = "",
     @NotNull
+    @NonNull
     val itemId: String = "",
+    @NotNull
+    @NonNull
     val name: String = "",
+    @NotNull
+    @NonNull
     val description: String = "",
+    @NotNull
+    @NonNull
     val priceReduction: Double = 0.0,
+    @NotNull
+    @NonNull
     val quantityThreshold: Int = 0
 ) : Serializable {
     companion object {

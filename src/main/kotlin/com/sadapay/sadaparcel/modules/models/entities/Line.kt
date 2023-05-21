@@ -22,7 +22,9 @@ class Line(
     @Column
     var quantity: Int
 ) : Serializable {
-    constructor() : this(null, Item(), 0)
+    constructor() : this(1, Item(), 0)
+
+    constructor(item: Item, quantity: Int) : this(1, item, quantity)
 
     override fun equals(other: Any?): Boolean {
 

@@ -1,8 +1,15 @@
 package com.sadapay.sadaparcel.modules.models.entities
 
+import lombok.Getter
+import lombok.NoArgsConstructor
+import lombok.Setter
+import java.io.Serializable
 import javax.persistence.*
 
 @Entity
+@Setter
+@Getter
+@NoArgsConstructor
 @Table(name = "orders")
 class Order(
     @Id @GeneratedValue
@@ -11,7 +18,7 @@ class Order(
     var items: List<Item>,
     @OneToMany(mappedBy = "orders", cascade = [CascadeType.ALL])
     var offers: List<Offer>,
-) {
+) : Serializable {
     constructor() : this("", emptyList(), emptyList())
 
     override fun equals(other: Any?): Boolean {

@@ -21,7 +21,7 @@ class LineService(
 
     fun save(lines: LinesDto) {
         for (line in lines.lines) {
-            val itemDto: ItemDto = line.itemDto
+            val itemDto: ItemDto = line.item
             itemsManagementService.save(itemDto)
             save(Line(Item(itemDto), line.quantity))
         }

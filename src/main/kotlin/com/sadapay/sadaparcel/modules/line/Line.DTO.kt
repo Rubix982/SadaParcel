@@ -50,7 +50,7 @@ data class LinesDto(
 data class LineDto(
     @NotNull
     @NonNull
-    val itemDto: ItemDto = ItemDto(),
+    val item: ItemDto = ItemDto(),
     @NotNull
     @NonNull
     val quantity: Int = 0
@@ -62,20 +62,20 @@ data class LineDto(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is LineDto) return false
-        if (itemDto != other.itemDto) return false
+        if (item != other.item) return false
         if (quantity != other.quantity) return false
         return true
     }
 
     override fun hashCode(): Int {
-        var result = itemDto.hashCode()
+        var result = item.hashCode()
         result = 31 * result + quantity.hashCode()
         return result
     }
 
     override fun toString(): String {
         return "LineDTO{" +
-                "itemDto='$itemDto', " +
+                "itemDto='$item', " +
                 "quantity='$quantity', " +
                 "}"
     }

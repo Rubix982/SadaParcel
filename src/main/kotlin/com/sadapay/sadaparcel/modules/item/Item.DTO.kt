@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor
 import lombok.experimental.Accessors
 import org.jetbrains.annotations.NotNull
 import java.io.Serializable
+import javax.validation.constraints.NotBlank
 
 /**
  * A DTO for the {@link com.sadapay.sadaparcel.modules.models.entities.Item} entity
@@ -14,6 +15,7 @@ import java.io.Serializable
 @Accessors(fluent = true)
 @Getter
 data class ItemDto(
+    @NotBlank
     @NotNull
     @NonNull
     var id: String = "",

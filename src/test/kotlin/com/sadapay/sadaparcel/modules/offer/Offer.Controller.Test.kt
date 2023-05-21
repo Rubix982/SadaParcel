@@ -11,9 +11,10 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.runner.RunWith
-import org.mockito.BDDMockito
+import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks
 import org.mockito.Mock
+import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.junit.jupiter.MockitoExtension
 import org.slf4j.Logger
@@ -78,6 +79,7 @@ internal class OfferControllerTest {
 
     @BeforeEach
     fun setUp() {
+        MockitoAnnotations.openMocks(this)
         logger.info("[${ControllerConstants.TEST_CLASS_NAME}::setUp]: Setup complete")
 
         JacksonTester.initFields(this, ObjectMapper())
@@ -111,15 +113,14 @@ internal class OfferControllerTest {
 
         // given
         offerRepository.deleteAll()
-        val totalOffers = offerRepository.findAll().size
-        BDDMockito.given(totalOffers).willReturn(0)
+        given(offerRepository.findAll()).willReturn(emptyList())
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        assertThat(mockedHttpServletResponse.contentLength).isEqualTo(totalOffers)
+        assertThat(mockedHttpServletResponse.contentLength).isEqualTo(0)
 
         logTestEnded(testName)
     }
@@ -136,8 +137,7 @@ internal class OfferControllerTest {
 
         // given
         offerRepository.deleteAll()
-        val totalOffers = offerRepository.findAll().size
-        BDDMockito.given(totalOffers).willReturn(0)
+        given(offerRepository.findAll()).willReturn(emptyList())
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
@@ -162,15 +162,14 @@ internal class OfferControllerTest {
         // given
         offerRepository.deleteAll()
         offerRepository.save(offers[0])
-        val totalOffers = offerRepository.findAll().size
-        BDDMockito.given(totalOffers).willReturn(1)
+        given(offerRepository.findAll()).willReturn(listOf(offers[0]))
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        assertThat(mockedHttpServletResponse.contentLength).isEqualTo(totalOffers)
+        assertThat(mockedHttpServletResponse.contentLength).isEqualTo(1)
 
         logTestEnded(testName)
     }
@@ -188,8 +187,7 @@ internal class OfferControllerTest {
         // given
         offerRepository.deleteAll()
         offerRepository.save(offers[0])
-        val totalOffers = offerRepository.findAll().size
-        BDDMockito.given(totalOffers).willReturn(1)
+        given(offerRepository.findAll()).willReturn(listOf(offers[0]))
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
@@ -215,8 +213,7 @@ internal class OfferControllerTest {
         offerRepository.deleteAll()
         offerRepository.save(offers[0])
         offerRepository.save(offers[0])
-        val totalOffers = offerRepository.findAll().size
-        BDDMockito.given(totalOffers).willReturn(2)
+        given(offerRepository.findAll()).willReturn(listOf(offers[0]))
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return

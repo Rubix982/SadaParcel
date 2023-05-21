@@ -27,11 +27,11 @@ internal class OffersManagementServiceTest(@Autowired private val offersManageme
     fun whenApplicationStarts_ThenHibernateCreatesInitialRecords() {
 
         // Given a fetched list from the ItemService
-        val items = offersManagementService.list()
+        val items = offersManagementService.findAll()
 
         // When Hibernate creates initial records
 
         // Then the list is empty
-        assert(items?.size == 0)
+        assert(items.count() == 0)
     }
 }

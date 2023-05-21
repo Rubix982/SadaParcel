@@ -18,7 +18,7 @@ class ItemsManagementService(
 
     fun save(itemDto: ItemDto): Item {
 
-        var item: Optional<Item> = itemRepository.findByItemId(itemDto.itemId)
+        var item: Optional<Item> = itemRepository.findByItemId(itemDto.id)
 
         if (item.isEmpty) {
             item = Optional.of(Item(itemDto))

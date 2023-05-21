@@ -50,7 +50,7 @@ class Item(
 
     constructor(
         itemDTO: ItemDto
-    ) : this(1, itemDTO.itemId, itemDTO.name, itemDTO.description, itemDTO.price, itemDTO.cost)
+    ) : this(1, itemDTO.id, itemDTO.name, itemDTO.description, itemDTO.price, itemDTO.cost)
 
     override fun equals(other: Any?): Boolean {
 

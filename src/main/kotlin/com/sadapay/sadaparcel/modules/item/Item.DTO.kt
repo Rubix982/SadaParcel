@@ -16,7 +16,7 @@ import java.io.Serializable
 data class ItemDto(
     @NotNull
     @NonNull
-    var itemId: String = "",
+    var id: String = "",
     @NotNull
     @NonNull
     var name: String = "",
@@ -37,7 +37,7 @@ data class ItemDto(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is ItemDto) return false
-        if (itemId != other.itemId) return false
+        if (id != other.id) return false
         if (name != other.name) return false
         if (description != other.description) return false
         if (price != other.price) return false
@@ -46,7 +46,7 @@ data class ItemDto(
     }
 
     override fun hashCode(): Int {
-        var result = itemId.hashCode()
+        var result = id.hashCode()
         result = 31 * result + name.hashCode()
         result = 31 * result + description.hashCode()
         result = 31 * result + price.hashCode()
@@ -56,7 +56,7 @@ data class ItemDto(
 
     override fun toString(): String {
         return "ItemDTO{" +
-                "itemId='$itemId', " +
+                "id='$id', " +
                 "name='$name', " +
                 "description='$description', " +
                 "price=$price, " +

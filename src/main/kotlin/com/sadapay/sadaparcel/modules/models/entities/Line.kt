@@ -1,8 +1,16 @@
 package com.sadapay.sadaparcel.modules.models.entities
 
+import lombok.Getter
+import lombok.NoArgsConstructor
+import lombok.Setter
+import java.io.Serializable
 import javax.persistence.*
 
 @Entity
+@Setter
+@Getter
+@NoArgsConstructor
+@Table(name = "lines")
 class Line(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -13,7 +21,7 @@ class Line(
     var items: Item,
     @Column
     var quantity: Int
-) {
+) : Serializable {
     constructor() : this(null, Item(), 0)
 
     override fun equals(other: Any?): Boolean {

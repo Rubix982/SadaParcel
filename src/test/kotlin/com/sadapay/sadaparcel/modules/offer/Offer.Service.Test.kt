@@ -16,6 +16,6 @@ class OfferServiceTest(@Autowired private val offerService: OfferService) {
         // When Hibernate creates initial records
 
         // Then the list is empty
-        assert(offers?.size == 0)
+        assert(offers.count() == 0)
     }
 }

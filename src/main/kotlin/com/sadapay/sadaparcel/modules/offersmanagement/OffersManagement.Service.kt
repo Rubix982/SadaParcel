@@ -5,7 +5,7 @@ import com.sadapay.sadaparcel.modules.models.repositories.OfferRepository
 import com.sadapay.sadaparcel.modules.offer.OfferDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import java.util.*
+import javax.transaction.Transactional
 
 @Service
 class OffersManagementService(
@@ -16,20 +16,17 @@ class OffersManagementService(
         return offerRepository.findAll()
     }
 
+    @Transactional
     fun save(offerDto: OfferDto): Offer {
-
-        var offer: Optional<Offer> = offerRepository.findByItemId(offerDto.itemId)
-
-        if (offer.isEmpty) {
-            offer = Optional.of(Offer(offerDto))
-        } else {
-            offer.get().name = offerDto.name
-            offer.get().description = offerDto.description
-            offer.get().priceReduction = offerDto.priceReduction
-            offer.get().quantityThreshold = offerDto.quantityThreshold
-        }
-
-        return offerRepository.save(offer.get())
+        return offerRepository.findByItemId(offerDto.itemId)
+            .orElseGet { offerRepository.save(Offer(offerDto)) }
+            .apply {
+                name = offerDto.name
+                description = offerDto.description
+                priceReduction = offerDto.priceReduction
+                quantityThreshold = offerDto.quantityThreshold
+                offerRepository.save(this)
+            }
     }
 
     fun areAllIdsValid(offerIds: List<String>): Boolean {
@@ -37,6 +34,7 @@ class OffersManagementService(
         return count == offerIds.size.toLong()
     }
 
+    @Transactional
     fun deleteOffers(offerIds: List<String>) {
         offerRepository.deleteByOfferIds(offerIds)
     }

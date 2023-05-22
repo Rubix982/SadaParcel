@@ -17,7 +17,7 @@ class Line(
     @Column(name = "id", nullable = false)
     var id: Long? = null,
     @OneToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(name = "item_id", referencedColumnName = "id")
+    @JoinColumn(name = "item_id", referencedColumnName = "itemId")
     var items: Item,
     @Column
     var quantity: Int

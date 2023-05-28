@@ -22,12 +22,19 @@ class LineService(
     fun save(lines: LinesDto) {
         for (line in lines.lines) {
             val itemDto: ItemDto = line.item
-            itemsManagementService.save(itemDto)
-            save(Line(Item(itemDto), line.quantity))
+            val savedItem: Item = itemsManagementService.save(itemDto)
+            val builtLine = buildLine(savedItem, line.quantity)
+            save(builtLine)
         }
     }
 
-    fun save(line: Line) {
+    private fun buildLine(item: Item, quantity: Int): Line {
+        val line = Line(item, quantity)
+        line.id = lineRepository.count() + 1
+        return line
+    }
+
+    private fun save(line: Line) {
         lineRepository.save(line)
     }
 }

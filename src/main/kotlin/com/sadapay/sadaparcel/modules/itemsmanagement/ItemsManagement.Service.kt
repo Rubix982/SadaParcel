@@ -18,20 +18,17 @@ class ItemsManagementService(
 
     @Transactional
     fun save(itemDto: ItemDto): Item {
-        val item = itemRepository.findByItemId(itemDto.id)
-            .orElseGet {
-                val temporaryItem = Item(itemDto)
-                temporaryItem.id = itemRepository.findAll().count() + 1
-                itemRepository.save(temporaryItem)
+        val existingItem = itemRepository.findByItemId(itemDto.id).orElse(null)
+        val item = existingItem?.apply {
+            name = itemDto.name
+            description = itemDto.description
+            price = itemDto.price
+            cost = itemDto.cost
+        }
+            ?: Item(itemDto).apply {
+                id = itemRepository.count() + 1
             }
-            .apply {
-                name = itemDto.name
-                description = itemDto.description
-                price = itemDto.price
-                cost = itemDto.cost
-                itemRepository.save(this)
-            }
-        return item
+        return itemRepository.save(item)
     }
 
     fun areAllIdsValid(itemIds: List<String>): Boolean {

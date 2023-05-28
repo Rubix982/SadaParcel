@@ -44,7 +44,15 @@ class ItemsManagementController @Autowired constructor(
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(lines)
         }
 
-        lineService?.save(lines)
+        val entity = composer.wrapWithLogs(lines, ItemsManagementMonadProcessor())
+        val outputEntity = composer.runWithLogs(entity, lineService::save)
+        composer.writeToLogger(outputEntity.logs)
+        val processor = outputEntity.configProcessor as ItemsManagementMonadProcessor
+
+        if (processor.wasAnItemUpdated) {
+            return ResponseEntity.status(HttpStatus.OK).body(lines)
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).body(lines)
     }
 

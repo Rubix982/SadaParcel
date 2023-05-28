@@ -45,7 +45,7 @@ class LineService(
         for (line in linesDto.lines) {
             val itemDto: ItemDto = line.item
             val savedItem: EntityWithLogs<Serializable?> = composer.runWithLogs(
-                composer.wrapWithLogs(itemDto),
+                composer.wrapWithLogs(itemDto, entity.configProcessor),
                 itemsManagementService::save
             )
             entity.addToLogs(savedItem.logs)

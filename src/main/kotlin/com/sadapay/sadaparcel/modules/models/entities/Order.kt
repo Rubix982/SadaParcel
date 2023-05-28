@@ -1,5 +1,6 @@
 package com.sadapay.sadaparcel.modules.models.entities
 
+import com.sadapay.sadaparcel.modules.models.constants.OrderConstants
 import lombok.Getter
 import lombok.NoArgsConstructor
 import lombok.Setter
@@ -10,13 +11,13 @@ import javax.persistence.*
 @Setter
 @Getter
 @NoArgsConstructor
-@Table(name = "orders")
+@Table(name = OrderConstants.TABLE_NAME)
 class Order(
     @Id @GeneratedValue
     var id: String,
-    @OneToMany(mappedBy = "orders", cascade = [CascadeType.ALL])
+    @OneToMany(mappedBy = OrderConstants.ITEMS_MAPPED_BY_COLUMN, cascade = [CascadeType.ALL])
     var items: List<Item>,
-    @OneToMany(mappedBy = "orders", cascade = [CascadeType.ALL])
+    @OneToMany(mappedBy = OrderConstants.OFFERS_MAPPED_BY_COLUMN, cascade = [CascadeType.ALL])
     var offers: List<Offer>,
 ) : Serializable {
     constructor() : this("", emptyList(), emptyList())

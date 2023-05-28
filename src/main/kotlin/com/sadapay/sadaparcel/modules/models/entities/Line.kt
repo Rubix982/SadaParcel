@@ -1,5 +1,6 @@
 package com.sadapay.sadaparcel.modules.models.entities
 
+import com.sadapay.sadaparcel.modules.models.constants.LineConstants
 import lombok.Getter
 import lombok.NoArgsConstructor
 import lombok.Setter
@@ -10,14 +11,16 @@ import javax.persistence.*
 @Setter
 @Getter
 @NoArgsConstructor
-@Table(name = "lines")
+@Table(name = LineConstants.TABLE_NAME)
 class Line(
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
-    var id: Long? = null,
+    @Column(name = LineConstants.ID_COLUMN_NAME, nullable = false, unique = true)
+    var id: Long,
     @OneToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(name = "item_id", referencedColumnName = "itemId")
+    @JoinColumn(
+        name = LineConstants.ITEM_JOIN_COLUMN_NAME,
+        referencedColumnName = LineConstants.ITEM_REFERENCED_COLUMN_NAME
+    )
     var items: Item,
     @Column
     var quantity: Int

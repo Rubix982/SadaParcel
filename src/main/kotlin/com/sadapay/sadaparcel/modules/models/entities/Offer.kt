@@ -1,5 +1,6 @@
 package com.sadapay.sadaparcel.modules.models.entities
 
+import com.sadapay.sadaparcel.modules.models.constants.OfferConstants
 import com.sadapay.sadaparcel.modules.offer.OfferDto
 import lombok.Getter
 import lombok.NoArgsConstructor
@@ -11,7 +12,7 @@ import javax.persistence.*
 @Setter
 @Getter
 @NoArgsConstructor
-@Table(name = "offers")
+@Table(name = OfferConstants.TABLE_NAME)
 class Offer(
     @Id @GeneratedValue
     var id: Int,
@@ -28,7 +29,7 @@ class Offer(
     @Column
     var quantityThreshold: Int,
     @ManyToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = OfferConstants.ORDER_REFERENCED_COLUMN_NAME)
     var orders: Order? = null
 ) : Serializable {
     constructor() : this(1, "", "", "", "", 0.0, 0)

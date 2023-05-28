@@ -36,6 +36,9 @@ class ItemsManagementController @Autowired constructor(
     @ResponseBody
     fun add(@Valid @RequestBody lines: LinesDto): ResponseEntity<LinesDto> {
 
+        if (lineService == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(lines)
+        }
 
         if (lines.lines.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(lines)

@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
+import com.sadapay.sadaparcel.config.controller.GlobalControllerConstants as constants
+import com.sadapay.sadaparcel.modules.transformations.TransformationMonadComposer.Companion as composer
 
 @RestController
 class ItemsManagementController @Autowired constructor(
@@ -24,12 +26,12 @@ class ItemsManagementController @Autowired constructor(
         this.lineService = lineService
     }
 
-    @GetMapping("/items-management", produces = ["application/json"])
+    @GetMapping(ItemsManagementConstants.ROUTE, produces = [constants.JSON])
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     fun index(): MutableIterable<Item?>? = itemsManagementService?.findAll()
 
-    @PostMapping("/items-management", produces = ["application/json"])
+    @PostMapping(ItemsManagementConstants.ROUTE, produces = [constants.JSON])
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     fun add(@Valid @RequestBody lines: LinesDto): ResponseEntity<LinesDto> {
@@ -43,7 +45,7 @@ class ItemsManagementController @Autowired constructor(
         return ResponseEntity.status(HttpStatus.CREATED).body(lines)
     }
 
-    @DeleteMapping("/items-management", produces = ["application/json"])
+    @DeleteMapping(ItemsManagementConstants.ROUTE, produces = [constants.JSON])
     @ResponseBody
     fun remove(itemIds: List<String>): ResponseEntity<List<String>> {
 

@@ -16,19 +16,23 @@
  *
  */
 
-package com.sadapay.sadaparcel.modules.item
+package com.sadapay.sadaparcel.modules.models.repositories.interfaces
 
 import com.sadapay.sadaparcel.modules.models.entities.Item
-import com.sadapay.sadaparcel.modules.models.repositories.interfaces.ItemRepository
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Service
+import org.springframework.data.jpa.repository.Modifying
+import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.CrudRepository
+import org.springframework.stereotype.Repository
+import java.util.*
 
-@Service
-class ItemService(
-    @Autowired
-    val itemRepository: ItemRepository
-) {
-    fun findAll(): MutableIterable<Item?> {
-        return itemRepository.findAll()
-    }
+@Repository
+interface ItemRepository : CrudRepository<Item?, Long?> {
+    fun findByItemId(itemId: String): Optional<Item>
+
+    @Query("SELECT COUNT(*) FROM Item i WHERE i.itemId IN :itemIds")
+    fun countByItemIds(itemIds: List<String>): Long
+
+    @Modifying
+    @Query("DELETE FROM Item WHERE itemId IN :itemIds")
+    fun deleteByItemIds(itemIds: List<String>)
 }

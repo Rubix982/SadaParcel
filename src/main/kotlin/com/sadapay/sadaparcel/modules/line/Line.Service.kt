@@ -23,7 +23,7 @@ import com.sadapay.sadaparcel.modules.itemsmanagement.ItemsManagementService
 import com.sadapay.sadaparcel.modules.models.entities.EntityWithLogs
 import com.sadapay.sadaparcel.modules.models.entities.Item
 import com.sadapay.sadaparcel.modules.models.entities.Line
-import com.sadapay.sadaparcel.modules.models.repositories.LineRepository
+import com.sadapay.sadaparcel.modules.models.repositories.interfaces.LineRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.io.Serializable

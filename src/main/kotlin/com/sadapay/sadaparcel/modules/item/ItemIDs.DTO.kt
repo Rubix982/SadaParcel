@@ -16,24 +16,40 @@
  *
  */
 
-package com.sadapay.sadaparcel.modules.models.repositories
+package com.sadapay.sadaparcel.modules.item
 
-import com.sadapay.sadaparcel.modules.models.entities.Offer
-import org.springframework.data.jpa.repository.Modifying
-import org.springframework.data.jpa.repository.Query
-import org.springframework.data.repository.CrudRepository
-import org.springframework.stereotype.Repository
-import java.util.*
+import lombok.Getter
+import lombok.RequiredArgsConstructor
+import lombok.experimental.Accessors
+import java.io.Serializable
 
-@Repository
-interface OfferRepository : CrudRepository<Offer?, Long?> {
+/**
+ * A DTO for the {@link com.sadapay.sadaparcel.modules.models.entities.Item} entity
+ */
+@RequiredArgsConstructor
+@Accessors(fluent = true)
+@Getter
+data class ItemIdsDto(
+    var itemIds: List<String> = emptyList()
+) : Serializable {
+    companion object {
+        private const val serialVersionUID = -6773356372607147358L
+    }
 
-    fun findByItemId(itemId: String): Optional<Offer>
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is ItemIdsDto) return false
+        if (itemIds != other.itemIds) return false
+        return true
+    }
 
-    @Query("SELECT COUNT(*) FROM Offer offer WHERE offer.itemId IN :offerIds")
-    fun countByOfferIds(offerIds: List<String>): Long
+    override fun hashCode(): Int {
+        return itemIds.hashCode()
+    }
 
-    @Modifying
-    @Query("DELETE FROM Offer WHERE itemId IN :offerIds")
-    fun deleteByOfferIds(offerIds: List<String>)
+    override fun toString(): String {
+        return "ItemIdsDTO{" +
+                "ids='$itemIds', " +
+                "}"
+    }
 }

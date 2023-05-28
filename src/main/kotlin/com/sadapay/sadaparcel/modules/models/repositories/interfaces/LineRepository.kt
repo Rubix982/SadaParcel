@@ -16,14 +16,14 @@
  *
  */
 
-package com.sadapay.sadaparcel.modules.models.repositories
+package com.sadapay.sadaparcel.modules.models.repositories.interfaces
 
-import com.sadapay.sadaparcel.modules.models.entities.Order
+import com.sadapay.sadaparcel.modules.models.entities.Line
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.repository.CrudRepository
 import org.springframework.data.repository.PagingAndSortingRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface OrderRepository : CrudRepository<Order?, Long?>, JpaRepository<Order?, Long?>,
-    PagingAndSortingRepository<Order?, Long?>
+interface LineRepository : CrudRepository<Line?, Long?>, JpaRepository<Line?, Long?>,
+    PagingAndSortingRepository<Line?, Long?>

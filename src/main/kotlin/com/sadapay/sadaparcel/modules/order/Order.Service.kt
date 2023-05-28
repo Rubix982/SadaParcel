@@ -19,7 +19,7 @@
 package com.sadapay.sadaparcel.modules.order
 
 import com.sadapay.sadaparcel.modules.models.entities.Order
-import com.sadapay.sadaparcel.modules.models.repositories.OrderRepository
+import com.sadapay.sadaparcel.modules.models.repositories.interfaces.OrderRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 

@@ -18,6 +18,7 @@
 
 package com.sadapay.sadaparcel.modules.itemsmanagement
 
+import com.sadapay.sadaparcel.modules.item.ItemIdsDto
 import com.sadapay.sadaparcel.modules.line.LineService
 import com.sadapay.sadaparcel.modules.line.LinesDto
 import com.sadapay.sadaparcel.modules.models.entities.Item
@@ -55,7 +56,7 @@ class ItemsManagementController @Autowired constructor(
     fun add(@Valid @RequestBody lines: LinesDto): ResponseEntity<LinesDto> {
 
         if (lineService == null) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(lines)
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(lines)
         }
 
         if (lines.lines.isEmpty()) {
@@ -76,22 +77,28 @@ class ItemsManagementController @Autowired constructor(
 
     @DeleteMapping(ItemsManagementConstants.ROUTE, produces = [constants.JSON])
     @ResponseBody
-    fun remove(itemIds: List<String>): ResponseEntity<List<String>> {
+    fun remove(@Valid @RequestBody itemIdsDto: ItemIdsDto): ResponseEntity<ItemIdsDto> {
 
-        if (itemIds.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(listOf())
+        val itemIds = itemIdsDto.itemIds
+
+        if (itemsManagementService == null) {
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(ItemIdsDto())
         }
 
-        itemsManagementService?.areAllIdsValid(itemIds)?.let { areAllIdsValid ->
+        if (itemIds.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(ItemIdsDto())
+        }
+
+        itemsManagementService.areAllIdsValid(itemIds).let { areAllIdsValid ->
             if (!areAllIdsValid) {
                 // If itemIds has some or all invalid Ids, return a 409 Conflict
                 // https://stackoverflow.com/questions/25122472/rest-http-status-code-if-delete-impossible
-                return ResponseEntity.status(HttpStatus.CONFLICT).body(listOf())
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(ItemIdsDto())
             }
         }
 
-        itemsManagementService?.deleteItems(itemIds)
+        itemsManagementService.deleteItems(itemIds)
 
-        return ResponseEntity.status(HttpStatus.OK).body(itemIds)
+        return ResponseEntity.status(HttpStatus.OK).body(ItemIdsDto(itemIds))
     }
 }

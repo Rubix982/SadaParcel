@@ -1,6 +1,7 @@
 package com.sadapay.sadaparcel.modules.models.entities
 
 import com.sadapay.sadaparcel.modules.item.ItemDto
+import com.sadapay.sadaparcel.modules.models.constants.ItemConstants
 import lombok.Getter
 import lombok.NoArgsConstructor
 import lombok.Setter
@@ -11,10 +12,11 @@ import javax.persistence.*
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "items")
+@Table(name = ItemConstants.TABLE_NAME)
 class Item(
-    @Id @GeneratedValue
-    var id: Int,
+    @Id
+    @Column(nullable = false, unique = true)
+    var id: Long,
     @Column(nullable = false, unique = true)
     var itemId: String,
     @Column
@@ -26,13 +28,13 @@ class Item(
     @Column
     var cost: Double,
     @ManyToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = ItemConstants.ORDER_JOIN_COLUMN_NAME)
     var orders: Order? = null
 ) : Serializable {
     constructor() : this(1, "", "", "", 0.0, 0.0, null)
 
     constructor(
-        id: Int,
+        id: Long,
         itemId: String,
         name: String,
         description: String,

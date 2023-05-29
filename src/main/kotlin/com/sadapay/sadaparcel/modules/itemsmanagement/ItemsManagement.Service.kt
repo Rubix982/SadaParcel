@@ -19,6 +19,7 @@
 package com.sadapay.sadaparcel.modules.itemsmanagement
 
 import com.sadapay.sadaparcel.modules.item.ItemDto
+import com.sadapay.sadaparcel.modules.item.ItemIdsDto
 import com.sadapay.sadaparcel.modules.models.entities.EntityWithLogs
 import com.sadapay.sadaparcel.modules.models.entities.Item
 import com.sadapay.sadaparcel.modules.models.repositories.interfaces.ItemRepository
@@ -69,7 +70,8 @@ class ItemsManagementService(
 
     @Transactional
     fun deleteItems(entity: EntityWithLogs<Serializable?>): EntityWithLogs<Serializable?> {
-        val itemIds = entity.entity as List<String>
+        val itemIdsDto = entity.entity as ItemIdsDto
+        val itemIds = itemIdsDto.itemIds
         itemRepository.deleteByItemIds(itemIds)
         logger.deletedItems(entity, itemIds)
         return entity

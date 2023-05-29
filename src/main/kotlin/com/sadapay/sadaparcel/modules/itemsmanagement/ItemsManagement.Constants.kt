@@ -19,6 +19,7 @@
 package com.sadapay.sadaparcel.modules.itemsmanagement
 
 object ItemsManagementConstants {
+    const val ITEMS_DELETED = "[DELETION]: Items deleted: %s"
     const val ITEM_SAVED = "[SAVING]: Item saved: %s"
     const val NEW_ITEM_CREATED = "[NEW]: New item with id %s created with values: %s"
     const val EXISTING_ITEM_APPLYING_CHANGES =

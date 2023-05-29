@@ -97,7 +97,9 @@ class ItemsManagementController @Autowired constructor(
             }
         }
 
-        itemsManagementService.deleteItems(itemIds)
+        val entity = composer.wrapWithLogs(itemIdsDto, ItemsManagementMonadProcessor())
+        val outputEntity = composer.runWithLogs(entity, itemsManagementService::deleteItems)
+        composer.writeToLogger(outputEntity.logs)
 
         return ResponseEntity.status(HttpStatus.OK).body(ItemIdsDto(itemIds))
     }

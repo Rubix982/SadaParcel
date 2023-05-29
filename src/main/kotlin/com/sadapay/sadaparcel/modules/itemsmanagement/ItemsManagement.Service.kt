@@ -22,12 +22,12 @@ import com.sadapay.sadaparcel.modules.item.ItemDto
 import com.sadapay.sadaparcel.modules.models.entities.EntityWithLogs
 import com.sadapay.sadaparcel.modules.models.entities.Item
 import com.sadapay.sadaparcel.modules.models.repositories.interfaces.ItemRepository
-import com.sadapay.sadaparcel.modules.transformations.TransformationMonadComposer
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.io.Serializable
 import javax.transaction.Transactional
 import com.sadapay.sadaparcel.modules.itemsmanagement.ItemsManagementLogger.Companion as logger
+import com.sadapay.sadaparcel.modules.transformations.TransformationMonadComposer.Companion as composer
 
 @Service
 class ItemsManagementService(
@@ -59,7 +59,7 @@ class ItemsManagementService(
 
         val savedItem: Item = itemRepository.save(item)
         logger.logSavedItem(entity, savedItem)
-        return TransformationMonadComposer.wrapWithLogs(savedItem)
+        return composer.wrapWithLogs(savedItem)
     }
 
     fun areAllIdsValid(itemIds: List<String>): Boolean {
@@ -68,7 +68,10 @@ class ItemsManagementService(
     }
 
     @Transactional
-    fun deleteItems(itemIds: List<String>) {
+    fun deleteItems(entity: EntityWithLogs<Serializable?>): EntityWithLogs<Serializable?> {
+        val itemIds = entity.entity as List<String>
         itemRepository.deleteByItemIds(itemIds)
+        logger.deletedItems(entity, itemIds)
+        return entity
     }
 }

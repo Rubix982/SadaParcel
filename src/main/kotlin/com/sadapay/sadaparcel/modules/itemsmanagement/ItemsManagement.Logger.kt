@@ -43,5 +43,9 @@ class ItemsManagementLogger {
         fun logSavedItem(entity: EntityWithLogs<Serializable?>, savedItem: Item) {
             entity.addToLogs(String.format(ItemsManagementConstants.ITEM_SAVED, savedItem))
         }
+
+        fun deletedItems(entity: EntityWithLogs<Serializable?>, itemIds: List<String>) {
+            entity.addToLogs(String.format(ItemsManagementConstants.ITEMS_DELETED, itemIds))
+        }
     }
 }

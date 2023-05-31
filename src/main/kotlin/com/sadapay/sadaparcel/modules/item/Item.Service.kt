@@ -22,6 +22,7 @@ import com.sadapay.sadaparcel.modules.models.entities.Item
 import com.sadapay.sadaparcel.modules.models.repositories.interfaces.ItemRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class ItemService(
@@ -30,5 +31,25 @@ class ItemService(
 ) {
     fun findAll(): MutableIterable<Item?> {
         return itemRepository.findAll()
+    }
+
+    fun findByItemId(itemId: String): Optional<Item> {
+        return itemRepository.findByItemId(itemId)
+    }
+
+    fun count(): Long {
+        return itemRepository.count()
+    }
+
+    fun countByItemIds(itemIds: List<String>): Long {
+        return itemRepository.countByItemIds(itemIds)
+    }
+
+    fun save(item: Item): Item {
+        return itemRepository.save(item)
+    }
+
+    fun deleteByItemIds(itemIds: List<String>) {
+        itemRepository.deleteByItemIds(itemIds)
     }
 }

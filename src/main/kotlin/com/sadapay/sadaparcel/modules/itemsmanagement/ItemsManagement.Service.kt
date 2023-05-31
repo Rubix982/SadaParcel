@@ -20,9 +20,9 @@ package com.sadapay.sadaparcel.modules.itemsmanagement
 
 import com.sadapay.sadaparcel.modules.item.ItemDto
 import com.sadapay.sadaparcel.modules.item.ItemIdsDto
+import com.sadapay.sadaparcel.modules.item.ItemService
 import com.sadapay.sadaparcel.modules.models.entities.EntityWithLogs
 import com.sadapay.sadaparcel.modules.models.entities.Item
-import com.sadapay.sadaparcel.modules.models.repositories.interfaces.ItemRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.io.Serializable
@@ -33,16 +33,16 @@ import com.sadapay.sadaparcel.modules.transformations.TransformationMonadCompose
 @Service
 class ItemsManagementService(
     @Autowired
-    val itemRepository: ItemRepository
+    val itemService: ItemService
 ) {
     fun findAll(): MutableIterable<Item?> {
-        return itemRepository.findAll()
+        return itemService.findAll()
     }
 
     @Transactional
     fun save(entity: EntityWithLogs<Serializable?>): EntityWithLogs<Serializable?> {
         val itemDto = entity.entity as ItemDto
-        val existingItem = itemRepository.findByItemId(itemDto.id).orElse(null)
+        val existingItem = itemService.findByItemId(itemDto.id).orElse(null)
         val item = existingItem?.apply {
             logger.logApplyingChanges(entity, itemDto)
 
@@ -55,16 +55,16 @@ class ItemsManagementService(
         }
             ?: Item(itemDto).apply {
                 logger.logNewItem(entity, itemDto)
-                id = itemRepository.count() + 1
+                id = itemService.count() + 1
             }
 
-        val savedItem: Item = itemRepository.save(item)
+        val savedItem: Item = itemService.save(item)
         logger.logSavedItem(entity, savedItem)
         return composer.wrapWithLogs(savedItem)
     }
 
     fun areAllIdsValid(itemIds: List<String>): Boolean {
-        val count: Long = itemRepository.countByItemIds(itemIds)
+        val count: Long = itemService.countByItemIds(itemIds)
         return count == itemIds.size.toLong()
     }
 
@@ -72,7 +72,7 @@ class ItemsManagementService(
     fun deleteItems(entity: EntityWithLogs<Serializable?>): EntityWithLogs<Serializable?> {
         val itemIdsDto = entity.entity as ItemIdsDto
         val itemIds = itemIdsDto.itemIds
-        itemRepository.deleteByItemIds(itemIds)
+        itemService.deleteByItemIds(itemIds)
         logger.deletedItems(entity, itemIds)
         return entity
     }

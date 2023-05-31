@@ -21,6 +21,7 @@ package com.sadapay.sadaparcel.modules.itemsmanagement
 import com.sadapay.sadaparcel.modules.item.ItemDto
 import com.sadapay.sadaparcel.modules.item.ItemIdsDto
 import com.sadapay.sadaparcel.modules.item.ItemService
+import com.sadapay.sadaparcel.modules.item.contract.ItemsDto
 import com.sadapay.sadaparcel.modules.models.entities.EntityWithLogs
 import com.sadapay.sadaparcel.modules.models.entities.Item
 import org.springframework.beans.factory.annotation.Autowired
@@ -35,9 +36,7 @@ class ItemsManagementService(
     @Autowired
     val itemService: ItemService
 ) {
-    fun findAll(): MutableIterable<Item?> {
-        return itemService.findAll()
-    }
+    fun findAll(): ItemsDto = itemService.findAll()
 
     @Transactional
     fun save(entity: EntityWithLogs<Serializable?>): EntityWithLogs<Serializable?> {

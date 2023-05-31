@@ -18,7 +18,7 @@
 
 package com.sadapay.sadaparcel.modules.item
 
-import com.sadapay.sadaparcel.modules.models.entities.Item
+import com.sadapay.sadaparcel.modules.item.contract.ItemsDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
@@ -38,5 +38,5 @@ class ItemsController @Autowired constructor(itemService: ItemService?) {
     @GetMapping("/items", produces = ["application/json"])
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    fun index(): MutableIterable<Item?>? = itemService?.findAll()
+    fun index(): ItemsDto? = itemService?.findAll()
 }

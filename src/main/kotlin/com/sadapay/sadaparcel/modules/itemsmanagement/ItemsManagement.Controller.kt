@@ -19,9 +19,9 @@
 package com.sadapay.sadaparcel.modules.itemsmanagement
 
 import com.sadapay.sadaparcel.modules.item.ItemIdsDto
+import com.sadapay.sadaparcel.modules.item.contract.ItemsDto
 import com.sadapay.sadaparcel.modules.line.LineService
 import com.sadapay.sadaparcel.modules.line.LinesDto
-import com.sadapay.sadaparcel.modules.models.entities.Item
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -48,7 +48,7 @@ class ItemsManagementController @Autowired constructor(
     @GetMapping(ItemsManagementConstants.ROUTE, produces = [constants.JSON])
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    fun index(): MutableIterable<Item?>? = itemsManagementService?.findAll()
+    fun index(): ItemsDto? = itemsManagementService?.findAll()
 
     @PostMapping(ItemsManagementConstants.ROUTE, produces = [constants.JSON])
     @ResponseStatus(HttpStatus.OK)

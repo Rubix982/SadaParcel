@@ -18,6 +18,7 @@
 
 package com.sadapay.sadaparcel.modules.item
 
+import com.sadapay.sadaparcel.modules.item.contract.ItemsDto
 import com.sadapay.sadaparcel.modules.models.entities.Item
 import com.sadapay.sadaparcel.modules.models.repositories.interfaces.ItemRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -29,9 +30,7 @@ class ItemService(
     @Autowired
     val itemRepository: ItemRepository
 ) {
-    fun findAll(): MutableIterable<Item?> {
-        return itemRepository.findAll()
-    }
+    fun findAll(): ItemsDto = ItemsDto(itemRepository.findAll())
 
     fun findByItemId(itemId: String): Optional<Item> {
         return itemRepository.findByItemId(itemId)

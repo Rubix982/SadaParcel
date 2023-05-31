@@ -32,14 +32,12 @@ data class ItemsDto(
         private const val serialVersionUID = -6773356372607147358L
     }
 
-    constructor(
-        items: MutableIterable<Item?>?
-    ) : this() {
+    constructor(items: MutableIterable<Item?>?) : this() {
         if (items == null) return
-
-        for (item in items) {
-            if (item == null) continue
-
+        val anyList = items as? List<*> ?: return
+        for (i in 0 until anyList.count()) {
+            val result: Any = anyList.elementAt(i) ?: continue
+            val item = result as? Array<*> ?: continue
             this.items.add(ItemDto(item))
         }
     }

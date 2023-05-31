@@ -16,7 +16,7 @@
  *
  */
 
-package com.sadapay.sadaparcel.modules.itemsmanagement
+package com.sadapay.sadaparcel.modules.itemsmanagement.constants
 
 object ItemsManagementConstants {
     const val ITEMS_DELETED = "[DELETION]: Items deleted: %s"

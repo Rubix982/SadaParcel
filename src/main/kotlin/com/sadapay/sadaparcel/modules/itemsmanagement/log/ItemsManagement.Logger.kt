@@ -16,9 +16,10 @@
  *
  */
 
-package com.sadapay.sadaparcel.modules.itemsmanagement
+package com.sadapay.sadaparcel.modules.itemsmanagement.log
 
 import com.sadapay.sadaparcel.modules.item.ItemDto
+import com.sadapay.sadaparcel.modules.itemsmanagement.constants.ItemsManagementConstants
 import com.sadapay.sadaparcel.modules.models.entities.EntityWithLogs
 import com.sadapay.sadaparcel.modules.models.entities.Item
 import java.io.Serializable

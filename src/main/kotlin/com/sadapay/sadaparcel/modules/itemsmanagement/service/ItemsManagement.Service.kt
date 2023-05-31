@@ -16,7 +16,7 @@
  *
  */
 
-package com.sadapay.sadaparcel.modules.itemsmanagement
+package com.sadapay.sadaparcel.modules.itemsmanagement.service
 
 import com.sadapay.sadaparcel.modules.item.ItemDto
 import com.sadapay.sadaparcel.modules.item.ItemIdsDto
@@ -29,7 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.io.Serializable
 import javax.transaction.Transactional
-import com.sadapay.sadaparcel.modules.itemsmanagement.ItemsManagementLogger.Companion as logger
+import com.sadapay.sadaparcel.modules.itemsmanagement.log.ItemsManagementLogger.Companion as logger
 import com.sadapay.sadaparcel.modules.transformations.TransformationMonadComposer.Companion as composer
 
 @Service

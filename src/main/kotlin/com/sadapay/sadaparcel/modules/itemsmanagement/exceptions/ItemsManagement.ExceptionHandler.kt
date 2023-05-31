@@ -16,7 +16,7 @@
  *
  */
 
-package com.sadapay.sadaparcel.modules.itemsmanagement
+package com.sadapay.sadaparcel.modules.itemsmanagement.exceptions
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ExceptionHandler

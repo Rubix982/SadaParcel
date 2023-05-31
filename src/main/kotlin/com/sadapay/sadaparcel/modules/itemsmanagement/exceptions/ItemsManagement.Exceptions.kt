@@ -16,7 +16,7 @@
  *
  */
 
-package com.sadapay.sadaparcel.modules.itemsmanagement
+package com.sadapay.sadaparcel.modules.itemsmanagement.exceptions
 
 /**
  * This exception is thrown when the Item can't be ... ?

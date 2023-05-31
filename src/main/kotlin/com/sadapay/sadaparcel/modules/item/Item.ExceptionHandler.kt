@@ -18,7 +18,7 @@
 
 package com.sadapay.sadaparcel.modules.item
 
-import com.sadapay.sadaparcel.modules.itemsmanagement.NonExistingItemException
+import com.sadapay.sadaparcel.modules.itemsmanagement.exceptions.NonExistingItemException
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus

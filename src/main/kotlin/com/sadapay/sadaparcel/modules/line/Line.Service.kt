@@ -19,7 +19,7 @@
 package com.sadapay.sadaparcel.modules.line
 
 import com.sadapay.sadaparcel.modules.item.ItemDto
-import com.sadapay.sadaparcel.modules.itemsmanagement.ItemsManagementService
+import com.sadapay.sadaparcel.modules.itemsmanagement.service.ItemsManagementService
 import com.sadapay.sadaparcel.modules.models.entities.EntityWithLogs
 import com.sadapay.sadaparcel.modules.models.entities.Item
 import com.sadapay.sadaparcel.modules.models.entities.Line

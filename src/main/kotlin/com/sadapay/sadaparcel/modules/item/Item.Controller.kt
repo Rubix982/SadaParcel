@@ -21,6 +21,7 @@ package com.sadapay.sadaparcel.modules.item
 import com.sadapay.sadaparcel.modules.item.contract.ItemsDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -38,5 +39,5 @@ class ItemsController @Autowired constructor(itemService: ItemService?) {
     @GetMapping("/items", produces = ["application/json"])
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    fun index(): ItemsDto? = itemService?.findAll()
+    fun index(): ResponseEntity<ItemsDto?> = ResponseEntity.status(HttpStatus.OK).body(itemService?.findAll())
 }

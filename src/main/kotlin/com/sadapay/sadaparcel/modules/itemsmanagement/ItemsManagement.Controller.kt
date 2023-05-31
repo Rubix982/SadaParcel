@@ -48,7 +48,8 @@ class ItemsManagementController @Autowired constructor(
     @GetMapping(ItemsManagementConstants.ROUTE, produces = [constants.JSON])
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    fun index(): ItemsDto? = itemsManagementService?.findAll()
+    fun index(): ResponseEntity<ItemsDto?> =
+        ResponseEntity.status(HttpStatus.OK).body(itemsManagementService?.findAll())
 
     @PostMapping(ItemsManagementConstants.ROUTE, produces = [constants.JSON])
     @ResponseStatus(HttpStatus.OK)

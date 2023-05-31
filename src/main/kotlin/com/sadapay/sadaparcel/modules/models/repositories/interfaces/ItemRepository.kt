@@ -27,6 +27,10 @@ import java.util.*
 
 @Repository
 interface ItemRepository : CrudRepository<Item?, Long?> {
+
+    @Query("SELECT itemId, name, description, price, cost FROM Item")
+    override fun findAll(): MutableIterable<Item?>
+
     fun findByItemId(itemId: String): Optional<Item>
 
     @Query("SELECT COUNT(*) FROM Item i WHERE i.itemId IN :itemIds")

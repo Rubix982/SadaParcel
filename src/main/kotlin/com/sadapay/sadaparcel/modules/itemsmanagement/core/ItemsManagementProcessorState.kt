@@ -16,10 +16,10 @@
  *
  */
 
-package com.sadapay.sadaparcel.modules.itemsmanagement
+package com.sadapay.sadaparcel.modules.itemsmanagement.core
 
 import com.sadapay.sadaparcel.modules.transformations.MonadProcessor
 
-data class ItemsManagementMonadProcessor(
+data class ItemsManagementProcessorState(
     var wasAnItemUpdated: Boolean = false,
 ) : MonadProcessor()

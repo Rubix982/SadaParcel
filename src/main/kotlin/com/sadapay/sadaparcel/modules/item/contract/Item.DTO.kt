@@ -18,6 +18,7 @@
 
 package com.sadapay.sadaparcel.modules.item
 
+import com.sadapay.sadaparcel.modules.models.entities.Item
 import lombok.Getter
 import lombok.NonNull
 import lombok.RequiredArgsConstructor
@@ -53,6 +54,8 @@ data class ItemDto(
     companion object {
         private const val serialVersionUID = -6773356372607147358L
     }
+
+    constructor(item: Item) : this(item.itemId, item.name, item.description, item.price, item.cost)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

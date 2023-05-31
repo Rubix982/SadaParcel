@@ -20,6 +20,8 @@ package com.sadapay.sadaparcel.modules.itemsmanagement
 
 import com.sadapay.sadaparcel.modules.item.ItemIdsDto
 import com.sadapay.sadaparcel.modules.item.contract.ItemsDto
+import com.sadapay.sadaparcel.modules.itemsmanagement.core.ItemsManagementProcessor
+import com.sadapay.sadaparcel.modules.itemsmanagement.core.ItemsManagementProcessorState
 import com.sadapay.sadaparcel.modules.line.LineService
 import com.sadapay.sadaparcel.modules.line.LinesDto
 import org.springframework.beans.factory.annotation.Autowired
@@ -28,21 +30,24 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 import com.sadapay.sadaparcel.config.controller.GlobalControllerConstants as constants
-import com.sadapay.sadaparcel.modules.transformations.TransformationMonadComposer.Companion as composer
 
 @RestController
 class ItemsManagementController @Autowired constructor(
     itemsManagementService: ItemsManagementService?,
-    lineService: LineService?
+    lineService: LineService?,
+    itemsManagementProcessor: ItemsManagementProcessor?
 ) {
 
     private val itemsManagementService: ItemsManagementService?
 
     private val lineService: LineService?
 
+    private val processor: ItemsManagementProcessor?
+
     init {
         this.itemsManagementService = itemsManagementService
         this.lineService = lineService
+        this.processor = itemsManagementProcessor
     }
 
     @GetMapping(ItemsManagementConstants.ROUTE, produces = [constants.JSON])
@@ -60,16 +65,18 @@ class ItemsManagementController @Autowired constructor(
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(lines)
         }
 
+        if (processor == null) {
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(lines)
+        }
+
         if (lines.lines.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(lines)
         }
 
-        val entity = composer.wrapWithLogs(lines, ItemsManagementMonadProcessor())
-        val outputEntity = composer.runWithLogs(entity, lineService::save)
-        composer.writeToLogger(outputEntity.logs)
-        val processor = outputEntity.configProcessor as ItemsManagementMonadProcessor
+        val outputEntity = processor.save(lines)
+        val config = outputEntity.configProcessor as ItemsManagementProcessorState
 
-        if (processor.wasAnItemUpdated) {
+        if (config.wasAnItemUpdated) {
             return ResponseEntity.status(HttpStatus.OK).body(lines)
         }
 
@@ -86,6 +93,10 @@ class ItemsManagementController @Autowired constructor(
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(ItemIdsDto())
         }
 
+        if (processor == null) {
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(ItemIdsDto())
+        }
+
         if (itemIds.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(ItemIdsDto())
         }
@@ -98,9 +109,7 @@ class ItemsManagementController @Autowired constructor(
             }
         }
 
-        val entity = composer.wrapWithLogs(itemIdsDto, ItemsManagementMonadProcessor())
-        val outputEntity = composer.runWithLogs(entity, itemsManagementService::deleteItems)
-        composer.writeToLogger(outputEntity.logs)
+        processor.deleteItems(itemIdsDto)
 
         return ResponseEntity.status(HttpStatus.OK).body(ItemIdsDto(itemIds))
     }

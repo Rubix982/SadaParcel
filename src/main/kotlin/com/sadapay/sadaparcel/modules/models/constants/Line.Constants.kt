@@ -23,4 +23,5 @@ object LineConstants {
     const val ID_COLUMN_NAME = "id"
     const val ITEM_REFERENCED_COLUMN_NAME = "itemId"
     const val ITEM_JOIN_COLUMN_NAME = "item_id"
+    const val LINE_MAPPED_TO_ITEM_COLUMN_NAME = "line"
 }

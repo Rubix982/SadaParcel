@@ -34,11 +34,8 @@ class Line(
     @Id
     @Column(name = LineConstants.ID_COLUMN_NAME, nullable = false, unique = true)
     var id: Long,
-    @OneToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(
-        name = LineConstants.ITEM_JOIN_COLUMN_NAME,
-        referencedColumnName = LineConstants.ITEM_REFERENCED_COLUMN_NAME
-    )
+    @OneToOne(mappedBy = LineConstants.LINE_MAPPED_TO_ITEM_COLUMN_NAME, cascade = [CascadeType.ALL])
+    @JoinColumn(name = LineConstants.ID_COLUMN_NAME)
     var items: Item,
     @Column
     var quantity: Int

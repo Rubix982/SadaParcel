@@ -45,6 +45,9 @@ class Item(
     var price: Double,
     @Column
     var cost: Double,
+    @OneToOne(cascade = [CascadeType.ALL])
+    @PrimaryKeyJoinColumn
+    var line: Line? = null,
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = ItemConstants.ORDER_JOIN_COLUMN_NAME)
     var orders: Order? = null

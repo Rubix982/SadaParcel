@@ -174,7 +174,7 @@ class ItemControllerTest {
         // given
         itemRepository.deleteAll()
         itemRepository.save(items[0])
-        given(itemRepository.findAll()).willReturn(listOf(items[0]))
+        given(itemRepository.findAll()).willReturn(mutableListOf(items[0]))
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
@@ -224,7 +224,7 @@ class ItemControllerTest {
         itemRepository.deleteAll()
         itemRepository.save(items[0])
         itemRepository.save(items[0])
-        given(itemRepository.findAll()).willReturn(listOf(items[0]))
+        given(itemRepository.findAll()).willReturn(mutableListOf(items[0]))
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return

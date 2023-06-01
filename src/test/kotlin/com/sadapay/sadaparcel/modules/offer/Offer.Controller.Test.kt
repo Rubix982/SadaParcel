@@ -21,6 +21,7 @@ package com.sadapay.sadaparcel.modules.offer
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.sadapay.sadaparcel.modules.models.entities.Offer
 import com.sadapay.sadaparcel.modules.models.repositories.interfaces.OfferRepository
+import com.sadapay.sadaparcel.modules.offer.controller.OffersController
 import com.sadapay.sadaparcel.server.rules.SadaParcelHttpHeaderFilter
 import lombok.extern.log4j.Log4j2
 import org.assertj.core.api.Assertions.assertThat

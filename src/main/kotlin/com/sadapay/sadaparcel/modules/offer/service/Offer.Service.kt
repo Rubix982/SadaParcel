@@ -16,7 +16,7 @@
  *
  */
 
-package com.sadapay.sadaparcel.modules.offer
+package com.sadapay.sadaparcel.modules.offer.service
 
 import com.sadapay.sadaparcel.modules.models.entities.Offer
 import com.sadapay.sadaparcel.modules.models.repositories.interfaces.OfferRepository

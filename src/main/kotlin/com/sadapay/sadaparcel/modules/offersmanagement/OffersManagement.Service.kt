@@ -20,7 +20,7 @@ package com.sadapay.sadaparcel.modules.offersmanagement
 
 import com.sadapay.sadaparcel.modules.models.entities.Offer
 import com.sadapay.sadaparcel.modules.models.repositories.interfaces.OfferRepository
-import com.sadapay.sadaparcel.modules.offer.OfferDto
+import com.sadapay.sadaparcel.modules.offer.contract.OfferDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import javax.transaction.Transactional

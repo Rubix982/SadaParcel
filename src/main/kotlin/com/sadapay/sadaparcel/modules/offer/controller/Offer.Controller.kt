@@ -18,10 +18,13 @@
 
 package com.sadapay.sadaparcel.modules.offer.controller
 
-import com.sadapay.sadaparcel.modules.models.entities.Offer
+import com.sadapay.sadaparcel.config.controller.GlobalControllerConstants
+import com.sadapay.sadaparcel.modules.models.constants.OfferConstants
+import com.sadapay.sadaparcel.modules.offer.contract.OffersDto
 import com.sadapay.sadaparcel.modules.offer.service.OfferService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -35,8 +38,8 @@ class OffersController @Autowired constructor(offerService: OfferService?) {
         this.offerService = offerService
     }
 
-    @GetMapping("/offers", produces = ["application/json"])
+    @GetMapping("/${OfferConstants.TABLE_NAME}", produces = [GlobalControllerConstants.JSON])
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    fun getOffers(): MutableIterable<Offer?>? = offerService?.findAll()
+    fun getOffers(): ResponseEntity<OffersDto?> = ResponseEntity.status(HttpStatus.OK).body(offerService?.findAll())
 }

@@ -16,17 +16,42 @@
  *
  */
 
-package com.sadapay.sadaparcel.modules.offer.service
+package com.sadapay.sadaparcel.modules.offer.contract
 
-import com.sadapay.sadaparcel.modules.models.repositories.interfaces.OfferRepository
-import com.sadapay.sadaparcel.modules.offer.contract.OffersDto
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Service
+import com.sadapay.sadaparcel.modules.models.entities.Offer
+import java.io.Serializable
 
-@Service
-class OfferService(
-    @Autowired
-    val offerRepository: OfferRepository
-) {
-    fun findAll(): OffersDto = OffersDto(offerRepository.findAll())
+data class OffersDto(
+    val offers: MutableList<OfferDto> = mutableListOf()
+) : Serializable {
+    companion object {
+        private const val serialVersionUID = -6773356372607147358L
+    }
+
+    constructor(offers: MutableIterable<Offer?>?) : this() {
+        if (offers == null) return
+        val anyList = offers as? List<*> ?: return
+        for (i in 0 until anyList.count()) {
+            val result: Any = anyList.elementAt(i) ?: continue
+            val offer = result as? Array<*> ?: continue
+            this.offers.add(OfferDto(offer))
+        }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is OffersDto) return false
+        if (offers != other.offers) return false
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return offers.hashCode()
+    }
+
+    override fun toString(): String {
+        return "OffersDTO{" +
+                "offers='$offers', " +
+                "}"
+    }
 }

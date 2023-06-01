@@ -19,7 +19,7 @@
 package com.sadapay.sadaparcel.modules.models.entities
 
 import com.sadapay.sadaparcel.modules.models.constants.OfferConstants
-import com.sadapay.sadaparcel.modules.offer.OfferDto
+import com.sadapay.sadaparcel.modules.offer.contract.OfferDto
 import lombok.Getter
 import lombok.NoArgsConstructor
 import lombok.Setter

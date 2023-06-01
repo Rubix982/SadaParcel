@@ -19,7 +19,7 @@
 package com.sadapay.sadaparcel.modules.offersmanagement
 
 import com.sadapay.sadaparcel.modules.models.entities.Offer
-import com.sadapay.sadaparcel.modules.offer.OfferDto
+import com.sadapay.sadaparcel.modules.offer.contract.OfferDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

@@ -16,7 +16,7 @@
  *
  */
 
-package com.sadapay.sadaparcel.modules.offer
+package com.sadapay.sadaparcel.modules.offer.contract
 
 import lombok.Getter
 import lombok.NonNull
@@ -51,6 +51,15 @@ data class OfferDto(
     @NonNull
     val quantityThreshold: Int = 0
 ) : Serializable {
+    constructor(offerId: Array<*>) : this(
+        offerId[0] as? String ?: "",
+        offerId[1] as? String ?: "",
+        offerId[2] as? String ?: "",
+        offerId[3] as? String ?: "",
+        offerId[4] as? Double ?: 0.0,
+        offerId[5] as? Int ?: 0
+    )
+
     companion object {
         private const val serialVersionUID = -2231830563027284790L
     }

@@ -19,8 +19,9 @@
 package com.sadapay.sadaparcel.modules.offersmanagement
 
 import com.sadapay.sadaparcel.modules.models.entities.Offer
-import com.sadapay.sadaparcel.modules.models.repositories.interfaces.OfferRepository
 import com.sadapay.sadaparcel.modules.offer.contract.OfferDto
+import com.sadapay.sadaparcel.modules.offer.contract.OffersDto
+import com.sadapay.sadaparcel.modules.offer.service.OfferService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import javax.transaction.Transactional
@@ -28,32 +29,30 @@ import javax.transaction.Transactional
 @Service
 class OffersManagementService(
     @Autowired
-    val offerRepository: OfferRepository
+    val offerService: OfferService
 ) {
-    fun findAll(): MutableIterable<Offer?> {
-        return offerRepository.findAll()
-    }
+    fun findAll(): OffersDto = offerService.findAll()
 
     @Transactional
     fun save(offerDto: OfferDto): Offer {
-        return offerRepository.findByItemId(offerDto.itemId)
-            .orElseGet { offerRepository.save(Offer(offerDto)) }
+        return offerService.findByItemId(offerDto)
+            .orElseGet { offerService.save(offerDto) }
             .apply {
                 name = offerDto.name
                 description = offerDto.description
                 priceReduction = offerDto.priceReduction
                 quantityThreshold = offerDto.quantityThreshold
-                offerRepository.save(this)
+                offerService.save(this)
             }
     }
 
     fun areAllIdsValid(offerIds: List<String>): Boolean {
-        val count: Long = offerRepository.countByOfferIds(offerIds)
+        val count: Long = offerService.countByOfferIds(offerIds)
         return count == offerIds.size.toLong()
     }
 
     @Transactional
     fun deleteOffers(offerIds: List<String>) {
-        offerRepository.deleteByOfferIds(offerIds)
+        offerService.deleteByOfferIds(offerIds)
     }
 }

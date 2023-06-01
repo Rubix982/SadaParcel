@@ -18,10 +18,13 @@
 
 package com.sadapay.sadaparcel.modules.offer.service
 
+import com.sadapay.sadaparcel.modules.models.entities.Offer
 import com.sadapay.sadaparcel.modules.models.repositories.interfaces.OfferRepository
+import com.sadapay.sadaparcel.modules.offer.contract.OfferDto
 import com.sadapay.sadaparcel.modules.offer.contract.OffersDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class OfferService(
@@ -29,4 +32,18 @@ class OfferService(
     val offerRepository: OfferRepository
 ) {
     fun findAll(): OffersDto = OffersDto(offerRepository.findAll())
+
+    fun findByItemId(offerDto: OfferDto): Optional<Offer> = offerRepository.findByItemId(offerDto.itemId)
+
+    fun save(offerDto: OfferDto): Offer = offerRepository.save(Offer(offerDto))
+
+    fun save(offerDto: Offer?): Offer? = offerDto?.let {
+        offerRepository.save(it)
+    }
+
+    fun countByOfferIds(offerIds: List<String>): Long = offerRepository.countByOfferIds(offerIds)
+
+    fun deleteByOfferIds(offerIds: List<String>) {
+        offerRepository.deleteByOfferIds(offerIds)
+    }
 }

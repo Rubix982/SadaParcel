@@ -18,8 +18,8 @@
 
 package com.sadapay.sadaparcel.modules.offersmanagement
 
-import com.sadapay.sadaparcel.modules.models.entities.Offer
 import com.sadapay.sadaparcel.modules.offer.contract.OfferDto
+import com.sadapay.sadaparcel.modules.offer.contract.OffersDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -38,7 +38,8 @@ class OffersManagementController @Autowired constructor(offersManagementService:
     @GetMapping(produces = ["application/json"])
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    fun getOffersManagement(): MutableIterable<Offer?>? = offersManagementService?.findAll()
+    fun getOffersManagement(): ResponseEntity<OffersDto?> =
+        ResponseEntity.status(HttpStatus.OK).body(offersManagementService?.findAll())
 
     @PostMapping("/offers-management", produces = ["application/json"])
     @ResponseStatus(HttpStatus.OK)

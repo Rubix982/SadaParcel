@@ -18,8 +18,10 @@
 
 package com.sadapay.sadaparcel.modules.offersmanagement
 
+import com.sadapay.sadaparcel.config.controller.GlobalControllerConstants
 import com.sadapay.sadaparcel.modules.offer.contract.OfferDto
 import com.sadapay.sadaparcel.modules.offer.contract.OffersDto
+import com.sadapay.sadaparcel.modules.offersmanagement.constants.OffersManagementConstants
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -35,13 +37,13 @@ class OffersManagementController @Autowired constructor(offersManagementService:
         this.offersManagementService = offersManagementService
     }
 
-    @GetMapping(produces = ["application/json"])
+    @GetMapping(produces = [GlobalControllerConstants.JSON])
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     fun getOffersManagement(): ResponseEntity<OffersDto?> =
         ResponseEntity.status(HttpStatus.OK).body(offersManagementService?.findAll())
 
-    @PostMapping("/offers-management", produces = ["application/json"])
+    @PostMapping(OffersManagementConstants.ROUTE, produces = [GlobalControllerConstants.JSON])
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     fun addOffer(@Valid @RequestBody offerDto: OfferDto): ResponseEntity<OfferDto> {
@@ -54,7 +56,7 @@ class OffersManagementController @Autowired constructor(offersManagementService:
         return ResponseEntity.status(HttpStatus.CREATED).body(offerDto)
     }
 
-    @DeleteMapping("/offers-management", produces = ["application/json"])
+    @DeleteMapping(OffersManagementConstants.ROUTE, produces = [GlobalControllerConstants.JSON])
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     fun removeOffer(offerIds: List<String>): ResponseEntity<List<String>> {

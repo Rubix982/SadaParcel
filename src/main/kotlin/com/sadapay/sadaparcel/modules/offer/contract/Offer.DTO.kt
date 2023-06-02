@@ -34,7 +34,7 @@ import javax.validation.constraints.NotNull
 data class OfferDto(
     @NotNull
     @NonNull
-    val offerId: String = "",
+    val id: String = "",
     @NotNull
     @NonNull
     val itemId: String = "",
@@ -69,7 +69,7 @@ data class OfferDto(
         if (other !is OfferDto) return false
         if (name != other.name) return false
         if (description != other.description) return false
-        if (offerId != other.offerId) return false
+        if (id != other.id) return false
         if (itemId != other.itemId) return false
         if (priceReduction != other.priceReduction) return false
         if (quantityThreshold != other.quantityThreshold) return false
@@ -79,7 +79,7 @@ data class OfferDto(
     override fun hashCode(): Int {
         var result = name.hashCode()
         result = 31 * result + description.hashCode()
-        result = 31 * result + offerId.hashCode()
+        result = 31 * result + id.hashCode()
         result = 31 * result + itemId.hashCode()
         result = 31 * result + priceReduction.hashCode()
         result = 31 * result + quantityThreshold.hashCode()

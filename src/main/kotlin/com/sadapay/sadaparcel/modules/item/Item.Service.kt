@@ -32,21 +32,13 @@ class ItemService(
 ) {
     fun findAll(): ItemsDto = ItemsDto(itemRepository.findAll())
 
-    fun findByItemId(itemId: String): Optional<Item> {
-        return itemRepository.findByItemId(itemId)
-    }
+    fun findByItemId(itemId: String): Optional<Item> = itemRepository.findByItemId(itemId)
 
-    fun count(): Long {
-        return itemRepository.count()
-    }
+    fun count(): Long = itemRepository.count()
 
-    fun countByItemIds(itemIds: List<String>): Long {
-        return itemRepository.countByItemIds(itemIds)
-    }
+    fun countByItemIds(itemIds: List<String>): Long = itemRepository.countByItemIds(itemIds)
 
-    fun save(item: Item): Item {
-        return itemRepository.save(item)
-    }
+    fun save(item: Item): Item = itemRepository.save(item)
 
     fun deleteByItemIds(itemIds: List<String>) {
         itemRepository.deleteByItemIds(itemIds)

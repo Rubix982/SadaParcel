@@ -46,4 +46,6 @@ class OfferService(
     fun deleteByOfferIds(offerIds: List<String>) {
         offerRepository.deleteByOfferIds(offerIds)
     }
+
+    fun count(): Long = offerRepository.count()
 }

@@ -33,10 +33,10 @@ interface OfferRepository : CrudRepository<Offer?, Long?> {
 
     fun findByItemId(itemId: String): Optional<Offer>
 
-    @Query("SELECT COUNT(*) FROM Offer offer WHERE offer.itemId IN :offerIds")
+    @Query("SELECT COUNT(*) FROM Offer offer WHERE offer.offerId IN :offerIds")
     fun countByOfferIds(offerIds: List<String>): Long
 
     @Modifying
-    @Query("DELETE FROM Offer WHERE itemId IN :offerIds")
+    @Query("DELETE FROM Offer WHERE offerId IN :offerIds")
     fun deleteByOfferIds(offerIds: List<String>)
 }

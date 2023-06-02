@@ -18,6 +18,7 @@
 
 package com.sadapay.sadaparcel.modules.offersmanagement.controller
 
+import com.sadapay.sadaparcel.modules.offer.contract.OfferIdsDto
 import com.sadapay.sadaparcel.modules.offer.contract.OffersDto
 import com.sadapay.sadaparcel.modules.offersmanagement.constants.OffersManagementConstants
 import com.sadapay.sadaparcel.modules.offersmanagement.service.OffersManagementService
@@ -64,22 +65,28 @@ class OffersManagementController @Autowired constructor(offersManagementService:
     @DeleteMapping(OffersManagementConstants.ROUTE, produces = [constants.JSON])
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    fun removeOffer(offerIds: List<String>): ResponseEntity<List<String>> {
+    fun removeOffer(@Valid @RequestBody offerIdsDto: OfferIdsDto): ResponseEntity<OfferIdsDto> {
 
-        if (offerIds.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(listOf())
+        val offerIds = offerIdsDto.offerIds
+
+        if (offersManagementService == null) {
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(OfferIdsDto())
         }
 
-        offersManagementService?.areAllIdsValid(offerIds)?.let { areAllIdsValid ->
+        if (offerIds.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(OfferIdsDto())
+        }
+
+        offersManagementService.areAllIdsValid(offerIds).let { areAllIdsValid ->
             if (!areAllIdsValid) {
                 // If offerIds has some or all invalid Ids, return a 409 Conflict
                 // https://stackoverflow.com/questions/25122472/rest-http-status-code-if-delete-impossible
-                return ResponseEntity.status(HttpStatus.CONFLICT).body(listOf())
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(OfferIdsDto())
             }
         }
 
-        offersManagementService?.deleteOffers(offerIds)
+        offersManagementService.deleteOffers(offerIds)
 
-        return ResponseEntity.status(HttpStatus.OK).body(offerIds)
+        return ResponseEntity.status(HttpStatus.OK).body(offerIdsDto)
     }
 }

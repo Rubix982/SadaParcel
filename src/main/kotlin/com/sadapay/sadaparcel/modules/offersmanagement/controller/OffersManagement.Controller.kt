@@ -16,10 +16,11 @@
  *
  */
 
-package com.sadapay.sadaparcel.modules.offersmanagement
+package com.sadapay.sadaparcel.modules.offersmanagement.controller
 
 import com.sadapay.sadaparcel.modules.offer.contract.OffersDto
 import com.sadapay.sadaparcel.modules.offersmanagement.constants.OffersManagementConstants
+import com.sadapay.sadaparcel.modules.offersmanagement.service.OffersManagementService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

@@ -32,11 +32,12 @@ import javax.persistence.*
 @NoArgsConstructor
 @Table(name = OfferConstants.TABLE_NAME)
 class Offer(
-    @Id @GeneratedValue
+    @Id
+    @Column(nullable = false, unique = true)
     var id: Int,
-    @Column
+    @Column(nullable = false, unique = true)
     var offerId: String,
-    @Column
+    @Column(nullable = false)
     var itemId: String,
     @Column
     var name: String,
@@ -56,7 +57,7 @@ class Offer(
         offerDto: OfferDto
     ) : this(
         1,
-        offerDto.offerId,
+        offerDto.id,
         offerDto.itemId,
         offerDto.name,
         offerDto.description,
@@ -91,7 +92,7 @@ class Offer(
 
         return other.id == id && other.offerId == offerId && other.itemId == itemId && other.name == name
                 && other.description == description && other.priceReduction == priceReduction
-                && other.quantityThreshold == quantityThreshold
+                && other.quantityThreshold == quantityThreshold && other.orders == orders
     }
 
     override fun hashCode(): Int {
@@ -102,6 +103,7 @@ class Offer(
         result = 31 * result + description.hashCode()
         result = 31 * result + priceReduction.hashCode()
         result = 31 * result + quantityThreshold
+        result = 31 * result + (orders?.hashCode() ?: 0)
         return result
     }
 
@@ -112,6 +114,7 @@ class Offer(
                 "name='$name', " +
                 "description='$description', " +
                 "priceReduction=$priceReduction, " +
-                "quantityThreshold=$quantityThreshold)"
+                "quantityThreshold=$quantityThreshold, " +
+                "orders=$orders)"
     }
 }

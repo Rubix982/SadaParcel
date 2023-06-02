@@ -132,7 +132,7 @@ internal class OfferControllerTest {
 
         // given
         offerRepository.deleteAll()
-        given(offerRepository.findAll()).willReturn(emptyList())
+        given(offerRepository.findAll()).willReturn(mutableListOf())
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
@@ -156,7 +156,7 @@ internal class OfferControllerTest {
 
         // given
         offerRepository.deleteAll()
-        given(offerRepository.findAll()).willReturn(emptyList())
+        given(offerRepository.findAll()).willReturn(mutableListOf())
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
@@ -181,7 +181,7 @@ internal class OfferControllerTest {
         // given
         offerRepository.deleteAll()
         offerRepository.save(offers[0])
-        given(offerRepository.findAll()).willReturn(listOf(offers[0]))
+        given(offerRepository.findAll()).willReturn(mutableListOf(offers[0]))
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
@@ -206,7 +206,7 @@ internal class OfferControllerTest {
         // given
         offerRepository.deleteAll()
         offerRepository.save(offers[0])
-        given(offerRepository.findAll()).willReturn(listOf(offers[0]))
+        given(offerRepository.findAll()).willReturn(mutableListOf(offers[0]))
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
@@ -232,7 +232,7 @@ internal class OfferControllerTest {
         offerRepository.deleteAll()
         offerRepository.save(offers[0])
         offerRepository.save(offers[0])
-        given(offerRepository.findAll()).willReturn(listOf(offers[0]))
+        given(offerRepository.findAll()).willReturn(mutableListOf(offers[0]))
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return

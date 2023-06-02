@@ -130,10 +130,10 @@ internal class OffersManagementControllerTest {
         }
 
         // given
-        given(offerRepository.findAll()).willReturn(emptyList())
+        given(offerRepository.findAll()).willReturn(mutableListOf())
 
         // when
-        val mockedHttpServletResponse = mockHttpPOSTServletResponse(emptyList()) ?: return
+        val mockedHttpServletResponse = mockHttpPOSTServletResponse(mutableListOf()) ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
@@ -153,7 +153,7 @@ internal class OffersManagementControllerTest {
         }
 
         // when
-        val mockedHttpServletResponse = mockHttpPOSTServletResponse(emptyList()) ?: return
+        val mockedHttpServletResponse = mockHttpPOSTServletResponse(mutableListOf()) ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
@@ -174,7 +174,7 @@ internal class OffersManagementControllerTest {
 
         // given
         offerRepository.deleteAll()
-        given(offerRepository.findAll()).willReturn(emptyList())
+        given(offerRepository.findAll()).willReturn(mutableListOf())
 
         // when
         val offer = List(1) { offers[0] }
@@ -199,7 +199,7 @@ internal class OffersManagementControllerTest {
 
         // given
         offerRepository.deleteAll()
-        given(offerRepository.findAll()).willReturn(emptyList())
+        given(offerRepository.findAll()).willReturn(mutableListOf())
 
         // when
         val offer = List(1) { offers[0] }
@@ -224,7 +224,7 @@ internal class OffersManagementControllerTest {
 
         // given
         offerRepository.deleteAll()
-        given(offerRepository.findAll()).willReturn(emptyList())
+        given(offerRepository.findAll()).willReturn(mutableListOf())
 
         // when
         val offer = List(1) { offers[0] }
@@ -232,7 +232,7 @@ internal class OffersManagementControllerTest {
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
-        assertThat(offerRepository.findAll()).isEqualTo(listOf(offers[0]))
+        assertThat(offerRepository.findAll()).isEqualTo(mutableListOf(offers[0]))
 
         logTestEnded(testName)
     }
@@ -250,7 +250,7 @@ internal class OffersManagementControllerTest {
         // given
         offerRepository.deleteAll()
         offerRepository.save(offers[0])
-        given(offerRepository.findAll()).willReturn(listOf(offers[0]))
+        given(offerRepository.findAll()).willReturn(mutableListOf(offers[0]))
 
         // when
         val offer = List(1) { offers[1] }
@@ -276,7 +276,7 @@ internal class OffersManagementControllerTest {
         // given
         offerRepository.deleteAll()
         offerRepository.save(offers[0])
-        given(offerRepository.findAll()).willReturn(listOf(offers[0]))
+        given(offerRepository.findAll()).willReturn(mutableListOf(offers[0]))
 
         // when
         val offer = List(1) { offers[0] }
@@ -356,7 +356,7 @@ internal class OffersManagementControllerTest {
 
         // given
         offerRepository.deleteAll()
-        given(offerRepository.findAll()).willReturn(emptyList())
+        given(offerRepository.findAll()).willReturn(mutableListOf())
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
@@ -380,7 +380,7 @@ internal class OffersManagementControllerTest {
 
         // given
         offerRepository.deleteAll()
-        given(offerRepository.findAll()).willReturn(emptyList())
+        given(offerRepository.findAll()).willReturn(mutableListOf())
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
@@ -405,7 +405,7 @@ internal class OffersManagementControllerTest {
         // given
         offerRepository.deleteAll()
         offerRepository.save(offers[0])
-        given(offerRepository.findAll()).willReturn(listOf(offers[0]))
+        given(offerRepository.findAll()).willReturn(mutableListOf(offers[0]))
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
@@ -430,7 +430,7 @@ internal class OffersManagementControllerTest {
         // given
         offerRepository.deleteAll()
         offerRepository.save(offers[0])
-        given(offerRepository.findAll()).willReturn(listOf(offers[0]))
+        given(offerRepository.findAll()).willReturn(mutableListOf(offers[0]))
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
@@ -456,7 +456,7 @@ internal class OffersManagementControllerTest {
         offerRepository.deleteAll()
         offerRepository.save(offers[0])
         offerRepository.save(offers[0])
-        given(offerRepository.findAll()).willReturn(listOf(offers[0]))
+        given(offerRepository.findAll()).willReturn(mutableListOf(offers[0]))
 
         // when
         val mockedHttpServletResponse = mockHttpGETServletResponse() ?: return
@@ -512,7 +512,7 @@ internal class OffersManagementControllerTest {
         val itemCount = offerRepository.findAll().count()
 
         // when
-        val mockedHttpServletResponse = mockHttpDELETEResponse(emptyList()) ?: return
+        val mockedHttpServletResponse = mockHttpDELETEResponse(mutableListOf()) ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then
@@ -532,7 +532,7 @@ internal class OffersManagementControllerTest {
         }
 
         // when
-        val mockedHttpServletResponse = mockHttpDELETEResponse(emptyList()) ?: return
+        val mockedHttpServletResponse = mockHttpDELETEResponse(mutableListOf()) ?: return
         logMockedHttpResponse(testName, mockedHttpServletResponse)
 
         // then

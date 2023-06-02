@@ -34,7 +34,7 @@ import javax.persistence.*
 class Offer(
     @Id
     @Column(nullable = false, unique = true)
-    var id: Int,
+    var id: Long,
     @Column(nullable = false, unique = true)
     var offerId: String,
     @Column(nullable = false)
@@ -66,7 +66,7 @@ class Offer(
     )
 
     constructor(
-        id: Int,
+        id: Long,
         offerId: String,
         itemId: String,
         name: String,

@@ -18,8 +18,6 @@
 
 package com.sadapay.sadaparcel.modules.offersmanagement
 
-import com.sadapay.sadaparcel.config.controller.GlobalControllerConstants
-import com.sadapay.sadaparcel.modules.offer.contract.OfferDto
 import com.sadapay.sadaparcel.modules.offer.contract.OffersDto
 import com.sadapay.sadaparcel.modules.offersmanagement.constants.OffersManagementConstants
 import org.springframework.beans.factory.annotation.Autowired
@@ -27,6 +25,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
+import com.sadapay.sadaparcel.config.controller.GlobalControllerConstants as constants
 
 @RestController
 class OffersManagementController @Autowired constructor(offersManagementService: OffersManagementService?) {
@@ -37,26 +36,31 @@ class OffersManagementController @Autowired constructor(offersManagementService:
         this.offersManagementService = offersManagementService
     }
 
-    @GetMapping(produces = [GlobalControllerConstants.JSON])
+    @GetMapping(OffersManagementConstants.ROUTE, produces = [constants.JSON])
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     fun getOffersManagement(): ResponseEntity<OffersDto?> =
         ResponseEntity.status(HttpStatus.OK).body(offersManagementService?.findAll())
 
-    @PostMapping(OffersManagementConstants.ROUTE, produces = [GlobalControllerConstants.JSON])
+    @PostMapping(OffersManagementConstants.ROUTE, produces = [constants.JSON])
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    fun addOffer(@Valid @RequestBody offerDto: OfferDto): ResponseEntity<OfferDto> {
+    fun addOffer(@Valid @RequestBody offersDto: OffersDto): ResponseEntity<OffersDto> {
 
-        if (offerDto.itemId.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(offerDto)
+        if (offersManagementService == null) {
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(offersDto)
         }
 
-        offersManagementService?.save(offerDto)
-        return ResponseEntity.status(HttpStatus.CREATED).body(offerDto)
+        if (offersDto.offers.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(offersDto)
+        }
+
+        offersManagementService.save(offersDto)
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(offersDto)
     }
 
-    @DeleteMapping(OffersManagementConstants.ROUTE, produces = [GlobalControllerConstants.JSON])
+    @DeleteMapping(OffersManagementConstants.ROUTE, produces = [constants.JSON])
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     fun removeOffer(offerIds: List<String>): ResponseEntity<List<String>> {

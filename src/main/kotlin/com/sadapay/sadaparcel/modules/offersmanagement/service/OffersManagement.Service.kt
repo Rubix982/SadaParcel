@@ -18,8 +18,6 @@
 
 package com.sadapay.sadaparcel.modules.offersmanagement
 
-import com.sadapay.sadaparcel.modules.models.entities.Offer
-import com.sadapay.sadaparcel.modules.offer.contract.OfferDto
 import com.sadapay.sadaparcel.modules.offer.contract.OffersDto
 import com.sadapay.sadaparcel.modules.offer.service.OfferService
 import org.springframework.beans.factory.annotation.Autowired
@@ -34,16 +32,20 @@ class OffersManagementService(
     fun findAll(): OffersDto = offerService.findAll()
 
     @Transactional
-    fun save(offerDto: OfferDto): Offer {
-        return offerService.findByItemId(offerDto)
-            .orElseGet { offerService.save(offerDto) }
-            .apply {
-                name = offerDto.name
-                description = offerDto.description
-                priceReduction = offerDto.priceReduction
-                quantityThreshold = offerDto.quantityThreshold
-                offerService.save(this)
-            }
+    fun save(offersDto: OffersDto): OffersDto {
+
+        for (offerDto in offersDto.offers) {
+            offerService.findByItemId(offerDto)
+                .orElseGet { offerService.save(offerDto) }
+                .apply {
+                    name = offerDto.name
+                    description = offerDto.description
+                    priceReduction = offerDto.priceReduction
+                    quantityThreshold = offerDto.quantityThreshold
+                    offerService.save(this)
+                }
+        }
+        return offersDto
     }
 
     fun areAllIdsValid(offerIds: List<String>): Boolean {

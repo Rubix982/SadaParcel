@@ -16,10 +16,20 @@
  *
  */
 
-package com.sadapay.sadaparcel.modules.order
+package com.sadapay.sadaparcel.modules.order.exceptions
+
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.bind.annotation.RestControllerAdvice
 
 /**
- * This exception is thrown when the Item can't be ... ?
- *
+ * Maps exceptions to HTTP codes
  */
-class NonExistingOrderException : RuntimeException()
+@RestControllerAdvice
+class OrderExceptionHandler {
+    @ExceptionHandler(NonExistingOrderException::class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    fun handleNonExistingOrder() {
+    }
+}

@@ -22,4 +22,6 @@ object OrderConstants {
     const val TABLE_NAME = "orders"
     const val ITEMS_MAPPED_BY_COLUMN = "orders"
     const val OFFERS_MAPPED_BY_COLUMN = "orders"
+    const val ITEMS_JOIN_COLUMN_NAME = "item_id"
+    const val ITEM_ID_COLUMN_NAME = "itemId"
 }

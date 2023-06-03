@@ -19,11 +19,13 @@
 package com.sadapay.sadaparcel.modules.models.repositories.interfaces
 
 import com.sadapay.sadaparcel.modules.models.entities.Order
-import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
-import org.springframework.data.repository.PagingAndSortingRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface OrderRepository : CrudRepository<Order?, Long?>, JpaRepository<Order?, Long?>,
-    PagingAndSortingRepository<Order?, Long?>
+interface OrderRepository : CrudRepository<Order?, Long?> {
+
+    @Query("SELECT orderId, items, offers from Order")
+    override fun findAll(): MutableList<Order?>
+}

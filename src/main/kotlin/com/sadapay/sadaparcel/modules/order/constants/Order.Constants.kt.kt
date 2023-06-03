@@ -16,19 +16,8 @@
  *
  */
 
-package com.sadapay.sadaparcel.modules.order.service
+package com.sadapay.sadaparcel.modules.order.constants
 
-import com.sadapay.sadaparcel.modules.models.entities.Order
-import com.sadapay.sadaparcel.modules.models.repositories.interfaces.OrderRepository
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Service
-
-@Service
-class OrderService(
-    @Autowired
-    val orderRepository: OrderRepository
-) {
-    fun list(): List<Order?>? = orderRepository.findAll()
-
-    fun findAll(): MutableList<Order?> = orderRepository.findAll()
+object OrderConstants {
+    const val ROUTE = "/orders"
 }

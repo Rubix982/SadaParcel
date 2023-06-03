@@ -18,20 +18,35 @@
 
 package com.sadapay.sadaparcel.modules.order.controller
 
+import com.sadapay.sadaparcel.config.controller.GlobalControllerConstants
 import com.sadapay.sadaparcel.modules.models.entities.Order
+import com.sadapay.sadaparcel.modules.order.constants.OrderConstants
+import com.sadapay.sadaparcel.modules.order.service.OrderService
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
-@RequestMapping("orders")
 @RestController
-class OrderController {
+class OrderController @Autowired constructor(orderService: OrderService?) {
 
-    @GetMapping(produces = ["application/json"])
-    @ResponseBody
-    fun getOrders(): List<Order> = listOf()
+    private val orderService: OrderService?
 
-    @PostMapping(produces = ["application/json"])
+    init {
+        this.orderService = orderService
+    }
+
+    @GetMapping(OrderConstants.ROUTE, produces = [GlobalControllerConstants.JSON])
+    @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    fun addOrder(order: Order) {
-        TODO()
+    fun getOrders(): ResponseEntity<MutableList<Order?>> =
+        ResponseEntity.status(HttpStatus.OK).body(orderService?.findAll())
+
+    @PostMapping(OrderConstants.ROUTE, produces = [GlobalControllerConstants.JSON])
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    fun addOrder(@Valid @RequestBody order: Order): ResponseEntity<Order> {
+        return ResponseEntity.status(HttpStatus.OK).body(order)
     }
 }

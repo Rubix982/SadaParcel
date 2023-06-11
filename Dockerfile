@@ -1,10 +1,32 @@
-FROM gradle:7.6.1-jdk17-alpine AS build
-COPY --chown=gradle:gradle . /home/gradle/src
-WORKDIR /home/gradle/src
-RUN gradle build --scan
+# using multistage docker build
+# ref: https://docs.docker.com/develop/develop-images/multistage-build/
 
-FROM openjdk:21-slim
+# temp container to build using gradle
+FROM gradle:8.1.1-jdk8-jammy AS TEMP_BUILD_IMAGE
+
+LABEL name="sadaparcel-build"
+
+ENV APP_HOME=/usr/app/
+WORKDIR $APP_HOME
+COPY build.gradle.kts settings.gradle.kts $APP_HOME
+
+COPY gradle $APP_HOME/gradle
+COPY --chown=gradle:gradle . /home/gradle/src
+USER root
+RUN chown -R gradle /home/gradle/src
+
+RUN gradle build || return 0
+COPY . .
+RUN gradle clean build --scan
+
+# actual container
+FROM eclipse-temurin:latest
+LABEL name="sadaparcel-runtime"
+ENV ARTIFACT_NAME=sadaparcel-0.0.1-SNAPSHOT.jar
+ENV APP_HOME=/usr/app/
+
+WORKDIR $APP_HOME
+COPY --from=TEMP_BUILD_IMAGE $APP_HOME/build/libs/$ARTIFACT_NAME .
+
 EXPOSE 8080
-COPY --from=build /home/gradle/src/build/libs/sadaparcel-0.0.1-SNAPSHOT-plain.jar /app/
-RUN bash -c 'touch /app/sadaparcel-0.0.1-SNAPSHOT-plain.jar'
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar","/app/sadaparcel-0.0.1-SNAPSHOT-plain.jar"]
+ENTRYPOINT exec java -jar ${ARTIFACT_NAME}

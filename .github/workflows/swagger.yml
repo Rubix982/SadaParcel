@@ -1,0 +1,31 @@
+name: Update Swagger Documentation
+on:
+  push:
+    branches:
+      - main
+jobs:
+  update-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build with Gradle
+        run: ./gradlew build
+      - name: Generate Swagger Documentation
+        run: ./gradlew springfox-swagger2
+      - name: Check for Diffs
+        id: git-check
+        run: |
+          git diff --quiet || echo "::set-output name=diff::true"
+      - name: Commit changes
+        if: steps.git-check.outputs.diff == 'true'
+        run: |
+          git config --global user.email "saifulislam84210@github.com"
+          git config --global user.name "GitHub Actions"
+          git add build/generated/swagger/swagger.json
+          git commit -m "Update Swagger documentation"
+      - name: Push changes
+        if: steps.git-check.outputs.diff == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}

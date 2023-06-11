@@ -1,0 +1,16 @@
+# Exclude development files
+.git
+.gitignore
+.vscode
+
+ # Exclude build artifacts
+build
+dist
+
+# Exclude log files
+logs
+
+ # Exclude media files
+*.jpg
+*.png
+*.gif

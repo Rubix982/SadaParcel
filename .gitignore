@@ -39,3 +39,7 @@ out/
 ### Logs ###
 *.log
 logs/
+
+### Config ###
+config/env/.env.dev
+config/env/.env.prod

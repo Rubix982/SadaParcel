@@ -65,6 +65,13 @@ dependencies {
     testImplementation("io.rest-assured:spring-mock-mvc:5.3.0")
 }
 
+develocity {
+    buildScan {
+        termsOfUseUrl.set("https://gradle.com/help/legal-terms-of-use")
+        termsOfUseAgree.set("yes")
+    }
+}
+
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")

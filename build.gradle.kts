@@ -20,7 +20,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("org.springframework.boot") version "2.5.1"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("io.spring.dependency-management") version "1.1.6"
     id("io.swagger.core.v3.swagger-gradle-plugin") version "2.2.9"
     id("org.flywaydb.flyway") version "8.5.13"
     kotlin("jvm") version "1.5.10"

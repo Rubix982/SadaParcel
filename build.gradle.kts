@@ -24,7 +24,7 @@ plugins {
     id("io.swagger.core.v3.swagger-gradle-plugin") version "2.2.9"
     id("org.flywaydb.flyway") version "8.5.13"
     kotlin("jvm") version "1.5.10"
-    kotlin("plugin.spring") version "1.5.10"
+    kotlin("plugin.spring") version "1.9.25"
 }
 
 group = "com.sadapay"

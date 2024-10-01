@@ -2,7 +2,7 @@
 # ref: https://docs.docker.com/develop/develop-images/multistage-build/
 
 # temp container to build using gradle
-FROM gradle:8.1.1-jdk8-jammy AS TEMP_BUILD_IMAGE
+FROM gradle:8.10.2-jdk8-jammy AS TEMP_BUILD_IMAGE
 
 LABEL name="sadaparcel-build"
 

@@ -52,7 +52,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("com.h2database:h2:2.1.214")
-    implementation("org.apache.tomcat:tomcat-dbcp:10.1.8")
+    implementation("org.apache.tomcat:tomcat-dbcp:10.1.59")
     implementation("org.apache.commons:commons-dbcp2:2.9.0")
     implementation("org.hibernate.validator:hibernate-validator:6.0.2.Final")
     implementation("org.projectlombok:lombok:1.18.20")
